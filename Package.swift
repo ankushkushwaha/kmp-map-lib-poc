@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "here-map-package",
+    platforms: [
+            .iOS(.v15) // Specify the minimum supported iOS version here
+        ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
