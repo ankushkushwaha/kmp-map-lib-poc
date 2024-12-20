@@ -9,16 +9,17 @@ import heresdk
 import SwiftUI
 
 @available(iOS 13.0, *)
-struct MapViewUIRepresentable: UIViewRepresentable {
+public struct MapViewUIRepresentable: UIViewRepresentable {
 
+    public init () {}
     // Conform to UIViewRepresentable protocol.
-    func makeUIView(context: Context) -> MapView {
+    public func makeUIView(context: Context) -> MapView {
         // Create an instance of the map view.
         return MapView()
     }
 
     // Conform to UIViewRepresentable protocol.
-    func updateUIView(_ mapView: MapView, context: Context) {
+    public func updateUIView(_ mapView: MapView, context: Context) {
         // Load the map scene using a map scheme to render the map with.
         mapView.mapScene.loadScene(mapScheme: MapScheme.normalDay, completion: onLoadScene)
 
