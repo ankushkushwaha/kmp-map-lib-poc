@@ -6,13 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5447DBB92D15F1F5000A89A1 /* here-map-package in Frameworks */ = {isa = PBXBuildFile; productRef = 5447DBB82D15F1F5000A89A1 /* here-map-package */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5447DBA32D15EF83000A89A1 /* HereMapPocSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HereMapPocSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5447DBBB2D15F3B7000A89A1 /* Exceptions for "HereMapPocSample" folder in "HereMapPocSample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"here-map-package",
+			);
+			target = 5447DBA22D15EF83000A89A1 /* HereMapPocSample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5447DBA52D15EF83000A89A1 /* HereMapPocSample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5447DBBB2D15F3B7000A89A1 /* Exceptions for "HereMapPocSample" folder in "HereMapPocSample" target */,
+			);
 			path = HereMapPocSample;
 			sourceTree = "<group>";
 		};
@@ -23,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5447DBB92D15F1F5000A89A1 /* here-map-package in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +83,7 @@
 			);
 			name = HereMapPocSample;
 			packageProductDependencies = (
+				5447DBB82D15F1F5000A89A1 /* here-map-package */,
 			);
 			productName = HereMapPocSample;
 			productReference = 5447DBA32D15EF83000A89A1 /* HereMapPocSample.app */;
@@ -94,6 +113,8 @@
 			);
 			mainGroup = 5447DB9A2D15EF83000A89A1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5447DBA42D15EF83000A89A1 /* Products */;
 			projectDirPath = "";
@@ -324,6 +345,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5447DBB82D15F1F5000A89A1 /* here-map-package */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "here-map-package";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5447DB9B2D15EF83000A89A1 /* Project object */;
 }
