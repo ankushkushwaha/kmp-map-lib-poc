@@ -10,11 +10,11 @@ import Foundation
 public struct HereMapWrapper: MapController {
     public init() {}
 
-    func darwRoutes(points: [Int]) {
+    public func darwRoutes(points: [Int]) {
         print("darwRoutes for points \(points)")
     }
     
-    func addPin(at point: Int) {
+    public func addPin(at point: Int) {
         print("addPin for point \(point)")
     }
 }
