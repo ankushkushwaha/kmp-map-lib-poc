@@ -14,8 +14,18 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
+        
         .target(
-            name: "here-map-package"),
+            name: "here-map-package",
+            dependencies: [
+                "heresdk"
+            ],
+            path: "Sources"
+        ),
+        .binaryTarget(
+            name: "heresdk",
+            path: "Frameworks/heresdk.xcframework"
+        ),
         .testTarget(
             name: "here-map-packageTests",
             dependencies: ["here-map-package"]

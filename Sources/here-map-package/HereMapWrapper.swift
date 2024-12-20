@@ -6,9 +6,23 @@
 //
 
 import Foundation
+import heresdk
 
 public struct HereMapWrapper: MapController {
-    public init() {}
+    public init(accessKeyID: String, accessKeySecret: String) {
+        let authenticationMode = AuthenticationMode.withKeySecret(
+            accessKeyId: accessKeyID,
+            accessKeySecret: accessKeySecret
+        )
+        let options = SDKOptions(
+            authenticationMode: authenticationMode
+        )
+        do {
+            try SDKNativeEngine.makeSharedInstance(options: options)
+        } catch let engineInstantiationError {
+            fatalError("Failed to initialize the HERE SDK. Cause: \(engineInstantiationError)")
+        }
+    }
 
     public func darwRoutes(points: [Int]) {
         print("darwRoutes for points \(points)")
@@ -17,6 +31,7 @@ public struct HereMapWrapper: MapController {
     public func addPin(at point: Int) {
         print("addPin for point \(point)")
     }
+    
 }
 
 protocol MapController {
