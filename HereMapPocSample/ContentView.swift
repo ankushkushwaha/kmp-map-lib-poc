@@ -7,19 +7,38 @@
 
 import SwiftUI
 import here_map_package
+import heresdk
 
 struct ContentView: View {
+    @State private var mapView = HereMapWrapper.shared!.mapView
     
-    let hereMap = HereMapWrapper(accessKeyID: ACCESS_KEY_ID,
-                                 accessKeySecret: ACCESS_KEY_SECRET)
+    init() {
+//        self.mapView = HereMapWrapper.shared?.mapView ?? MapView()
+    }
+    
     var body: some View {
         VStack {
             
-            Button("Show map") {
-                hereMap.addPin(at: 2)
+            Button("Add Marker") {
+                HereMapWrapper.shared?.addMarker(
+                    GeoCoordinates(
+                        latitude: 52.520798,
+                        longitude: 13.409408
+                    ),
+                    image: UIImage(systemName: "car.fill")!
+                )
+                
+                HereMapWrapper.shared?.add(
+                    GeoCoordinates(
+                        latitude: 52.520798,
+                        longitude: 13.409408
+                    ),
+                    image: UIImage(systemName: "car.fill")!
+                )
             }
             
-            MapViewUIRepresentable()
+            MapViewUIRepresentable(mapView: $mapView)
+                .edgesIgnoringSafeArea(.all)
         }
         .padding()
     }
