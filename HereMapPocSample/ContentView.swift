@@ -28,7 +28,7 @@ struct ContentView: View {
                     image: UIImage(systemName: "car.fill")!
                 )
                 
-                HereMapWrapper.shared?.add(
+                HereMapWrapper.shared?.addMarker(
                     GeoCoordinates(
                         latitude: 52.520798,
                         longitude: 13.409408
