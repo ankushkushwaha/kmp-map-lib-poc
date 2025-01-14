@@ -16,23 +16,23 @@ public class HereMapWrapper: MapController {
     
     public let mapView: MapView
     private let markerActions: MarkerActions
- 
+    
     
     @MainActor public static func configure(accessKeyID: String, accessKeySecret: String) {
-            guard shared == nil else {
-                fatalError("HereMapWrapper is already configured.")
-            }
-            shared = HereMapWrapper(accessKeyID: accessKeyID, accessKeySecret: accessKeySecret)
+        guard shared == nil else {
+            fatalError("HereMapWrapper is already configured.")
         }
+        shared = HereMapWrapper(accessKeyID: accessKeyID, accessKeySecret: accessKeySecret)
+    }
     
     public func clearMap() {
         
     }
     
     @MainActor public func addMarker(_ point: GeoCoordinates, image: UIImage) {
-         markerActions.addMarker(point, image: image)
+        markerActions.addMarker(point, image: image)
     }
-
+    
     public func addMarker(at point: Int) {
         
     }
@@ -68,6 +68,18 @@ public class HereMapWrapper: MapController {
         
         self.mapView = MapView()
         self.markerActions = MarkerActions(mapView)
+        // Load the map scene using a map scheme to render the map with.
+        mapView.mapScene.loadScene(mapScheme: MapScheme.normalDay, completion: onLoadScene)
+    }
+    
+    @MainActor private func onLoadScene(mapError: MapError?) {
+        guard mapError == nil else {
+            print("Error: Map scene not loaded, \(String(describing: mapError))")
+            return
+        }
+        
+        // Optionally, enable low speed zone map layer.
+        mapView.mapScene.enableFeatures([MapFeatures.lowSpeedZones : MapFeatureModes.lowSpeedZonesAll]);
     }
 }
 
