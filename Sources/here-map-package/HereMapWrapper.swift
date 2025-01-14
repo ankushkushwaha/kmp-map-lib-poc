@@ -10,15 +10,14 @@ import heresdk
 import UIKit
 
 public class HereMapWrapper: @preconcurrency MapController {
-     
     
     nonisolated(unsafe) public static var shared: HereMapWrapper?
     
     public let mapView: MapView
     private let markerActions: MarkerActions
     private let cameraAction: CameraAction
+    private let routingAction: RoutingActions
 
-    
     @MainActor public static func configure(accessKeyID: String, accessKeySecret: String) {
         guard shared == nil else {
             fatalError("HereMapWrapper is already configured.")
@@ -26,8 +25,9 @@ public class HereMapWrapper: @preconcurrency MapController {
         shared = HereMapWrapper(accessKeyID: accessKeyID, accessKeySecret: accessKeySecret)
     }
     
-    public func clearMap() {
-        
+    @MainActor public func clearMap() {
+        routingAction.clearRoute()
+        markerActions.clearMarkers()
     }
     
     @MainActor public func addMarker(_ point: GeoCoordinates, image: UIImage) {
@@ -37,18 +37,15 @@ public class HereMapWrapper: @preconcurrency MapController {
     @MainActor public func moveCamera(_ point: GeoCoordinates) {
         cameraAction.moveCamera(point)
     }
-
     
-    public func darwRoute(start: heresdk.GeoCoordinates, end: heresdk.GeoCoordinates) {
-        
-    }
-    
-    public func darwRoute(points: [Int]) {
-        
-    }
-    
-    public func darwRoutes(start: heresdk.GeoCoordinates, end: heresdk.GeoCoordinates) {
-        
+    @MainActor public func darwRoute(start: GeoCoordinates,
+                              end: GeoCoordinates, routeColor: UIColor = .red, widthInPixels: CGFloat = 20.0) {
+        routingAction.darwRoute(
+            start: start,
+            end: end,
+            routeColor : routeColor,
+            widthInPixels: widthInPixels
+        )
     }
     
     @MainActor
@@ -71,7 +68,8 @@ public class HereMapWrapper: @preconcurrency MapController {
         self.mapView = MapView()
         self.markerActions = MarkerActions(mapView)
         self.cameraAction = CameraAction(mapView)
-        
+        self.routingAction = RoutingActions(mapView)
+
         // Load the map scene using a map scheme to render the map with.
         mapView.mapScene.loadScene(mapScheme: MapScheme.normalDay, completion: onLoadScene)
     }
@@ -90,9 +88,8 @@ public class HereMapWrapper: @preconcurrency MapController {
 protocol MapController {
     func addMarker(_ point: GeoCoordinates, image: UIImage)
     func moveCamera(_ point: GeoCoordinates)
-    func darwRoute(start: GeoCoordinates, end: GeoCoordinates)
-    func darwRoute(points: [Int])
-    func darwRoutes(start: GeoCoordinates, end: GeoCoordinates)
+    func darwRoute(start: GeoCoordinates, end: GeoCoordinates,
+                   routeColor: UIColor, widthInPixels: CGFloat)
 }
 
 extension GeoCoordinates: @unchecked @retroactive Sendable {}
