@@ -29,6 +29,5 @@ class MarkerActions {
         let mapMarker = MapMarker(at: point, image: mapImage)
         
         mapView.mapScene.addMapMarker(mapMarker)
-                
     }
 }

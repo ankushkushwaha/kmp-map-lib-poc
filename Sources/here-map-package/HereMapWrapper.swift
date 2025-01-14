@@ -9,14 +9,15 @@ import Foundation
 import heresdk
 import UIKit
 
-public class HereMapWrapper: MapController {
-    
+public class HereMapWrapper: @preconcurrency MapController {
+     
     
     nonisolated(unsafe) public static var shared: HereMapWrapper?
     
     public let mapView: MapView
     private let markerActions: MarkerActions
-    
+    private let cameraAction: CameraAction
+
     
     @MainActor public static func configure(accessKeyID: String, accessKeySecret: String) {
         guard shared == nil else {
@@ -33,9 +34,10 @@ public class HereMapWrapper: MapController {
         markerActions.addMarker(point, image: image)
     }
     
-    public func addMarker(at point: Int) {
-        
+    @MainActor public func moveCamera(_ point: GeoCoordinates) {
+        cameraAction.moveCamera(point)
     }
+
     
     public func darwRoute(start: heresdk.GeoCoordinates, end: heresdk.GeoCoordinates) {
         
@@ -68,6 +70,8 @@ public class HereMapWrapper: MapController {
         
         self.mapView = MapView()
         self.markerActions = MarkerActions(mapView)
+        self.cameraAction = CameraAction(mapView)
+        
         // Load the map scene using a map scheme to render the map with.
         mapView.mapScene.loadScene(mapScheme: MapScheme.normalDay, completion: onLoadScene)
     }
@@ -84,11 +88,11 @@ public class HereMapWrapper: MapController {
 }
 
 protocol MapController {
-    func addMarker(_ point: GeoCoordinates, image: UIImage) async
+    func addMarker(_ point: GeoCoordinates, image: UIImage)
+    func moveCamera(_ point: GeoCoordinates)
     func darwRoute(start: GeoCoordinates, end: GeoCoordinates)
     func darwRoute(points: [Int])
     func darwRoutes(start: GeoCoordinates, end: GeoCoordinates)
-    func clearMap()
 }
 
 extension GeoCoordinates: @unchecked @retroactive Sendable {}
