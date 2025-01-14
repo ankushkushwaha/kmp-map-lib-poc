@@ -17,7 +17,7 @@ class MarkerActions {
         self.mapView = mapView
     }
     
-    func addMarker(_ point: GeoCoordinates, image: UIImage) {
+    @MainActor func addMarker(_ point: GeoCoordinates, image: UIImage) {
         guard let imageData = image.pngData() else {
             print("Error: Image not found.")
             return
