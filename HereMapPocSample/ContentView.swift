@@ -12,6 +12,7 @@ import heresdk
 struct ContentView: View {
     @State private var mapView = HereMapWrapper.shared!.mapView
     
+    @State var showPopup = false
     var body: some View {
         VStack {
             
@@ -37,14 +38,40 @@ struct ContentView: View {
                 HereMapWrapper.shared?.moveCamera(startGeoCoordinates)
             }
             
+            Button("Add Route via point") {
+            
+                let points = [
+                    GeoCoordinates(latitude: 52.53032, longitude: 13.37409),
+                              GeoCoordinates(latitude: 52.5309, longitude: 13.3946),
+                              GeoCoordinates(latitude: 52.53894, longitude: 13.39194),
+                              GeoCoordinates(latitude: 52.54014, longitude: 13.37958)
+                ]
+                HereMapWrapper.shared?.drawRoute(points)
+                    
+                HereMapWrapper.shared?.moveCamera(points.first!)
+            }
+            
             Button("Clear Map") {
                 HereMapWrapper.shared?.clearMap()
             }
             
-            MapViewUIRepresentable(mapView: $mapView)
-                .edgesIgnoringSafeArea(.all)
+            ZStack {
+                MapViewUIRepresentable(mapView: $mapView)
+                    .edgesIgnoringSafeArea(.all)
+                if showPopup {
+                    CustomPopupView(showPopup: $showPopup)
+                }
+            }
+                
+
         }
         .padding()
+        .onAppear {
+            HereMapWrapper.shared?.markerTapped = { marker in
+                print("HereMapWrapper. marker")
+                showPopup = true
+            }
+        }
     }
 }
 
