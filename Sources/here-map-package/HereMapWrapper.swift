@@ -10,6 +10,7 @@ import heresdk
 import UIKit
 
 public class HereMapWrapper: @preconcurrency MapController {
+ 
     
     public var markerTapped: ((MapMarker) -> Void)? {
         didSet {
@@ -39,6 +40,14 @@ public class HereMapWrapper: @preconcurrency MapController {
     
     @MainActor public func addMarker(_ point: GeoCoordinates, image: UIImage) {
         markerActions.addMarker(point, image: image)
+    }
+    
+    @MainActor public func addMarkerCluster(_ points: [GeoCoordinates],
+                                            clusterImage: UIImage,
+                                            markerImage: UIImage? = nil) {
+        markerActions.addMapMarkerCluster(points,
+                                          clusterImage: clusterImage,
+                                          markerImage: markerImage ?? clusterImage)
     }
     
     @MainActor public func moveCamera(_ point: GeoCoordinates) {
@@ -99,6 +108,9 @@ public class HereMapWrapper: @preconcurrency MapController {
 
 protocol MapController {
     func addMarker(_ point: GeoCoordinates, image: UIImage)
+    func addMarkerCluster(_ points: [GeoCoordinates],
+                                            clusterImage: UIImage,
+                                            markerImage: UIImage?)
     func moveCamera(_ point: GeoCoordinates)
     func darwRoute(start: GeoCoordinates, end: GeoCoordinates,
                    routeColor: UIColor, widthInPixels: CGFloat)
