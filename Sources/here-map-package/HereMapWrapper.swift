@@ -11,12 +11,19 @@ import UIKit
 
 public class HereMapWrapper: @preconcurrency MapController {
     
+    public var markerTapped: ((MapMarker) -> Void)? {
+        didSet {
+            tapHandler.markerTapped = markerTapped
+        }
+    }
+        
     nonisolated(unsafe) public static var shared: HereMapWrapper?
     
     public let mapView: MapView
     private let markerActions: MarkerActions
     private let cameraAction: CameraAction
     private let routingAction: RoutingActions
+    private let tapHandler: TapHandler
 
     @MainActor public static func configure(accessKeyID: String, accessKeySecret: String) {
         guard shared == nil else {
@@ -73,11 +80,10 @@ public class HereMapWrapper: @preconcurrency MapController {
         self.markerActions = MarkerActions(mapView)
         self.cameraAction = CameraAction(mapView)
         self.routingAction = RoutingActions(mapView)
-
+        self.tapHandler = TapHandler(mapView)
+        
         // Load the map scene using a map scheme to render the map with.
         mapView.mapScene.loadScene(mapScheme: MapScheme.normalDay, completion: onLoadScene)
-        mapView.gestures.tapDelegate = self
-
     }
     
     @MainActor private func onLoadScene(mapError: MapError?) {
@@ -88,21 +94,6 @@ public class HereMapWrapper: @preconcurrency MapController {
         
         // Optionally, enable low speed zone map layer.
         mapView.mapScene.enableFeatures([MapFeatures.lowSpeedZones : MapFeatureModes.lowSpeedZonesAll]);
-    }
-}
-
-extension HereMapWrapper: @preconcurrency TapDelegate {
-
-    @MainActor public func onTap(origin: Point2D) {
-        mapView.pickMapItems(at: origin, radius: 2, completion: onMapItemsPicked)
-    }
-
-    func onMapItemsPicked(pickedMapItems: PickMapItemsResult?) {
-        guard let topmostMapMarker = pickedMapItems?.markers.first else {
-            return
-        }
-
-        print(topmostMapMarker.coordinates)
     }
 }
 
