@@ -11,6 +11,7 @@ import heresdk
 
 struct ContentView: View {
     @State private var mapView = HereMapWrapper.shared!.mapView
+    @State private var tapppedMarker: MapMarker?
     
     @State var showPopup = false
     var body: some View {
@@ -51,6 +52,30 @@ struct ContentView: View {
                 HereMapWrapper.shared?.moveCamera(points.first!)
             }
             
+            Button("Add cluster") {
+                
+                let points = [
+                    GeoCoordinates(latitude: 52.53032, longitude: 13.37409),
+                    GeoCoordinates(latitude: 52.5309, longitude: 13.3946),
+                    GeoCoordinates(latitude: 52.53894, longitude: 13.39194),
+                    GeoCoordinates(latitude: 52.54014, longitude: 13.37958),
+                    GeoCoordinates(latitude: 52.53150, longitude: 13.38050),
+                    GeoCoordinates(latitude: 52.53500, longitude: 13.38200),
+                    GeoCoordinates(latitude: 52.53275, longitude: 13.38800),
+                    GeoCoordinates(latitude: 52.53720, longitude: 13.37550),
+                    GeoCoordinates(latitude: 52.53460, longitude: 13.39220),
+                    GeoCoordinates(latitude: 52.53380, longitude: 13.37840)
+                ]
+
+                HereMapWrapper.shared?.addMarkerCluster(
+                    points,
+                    clusterImage: UIImage(systemName: "circle.fill")!,
+                    markerImage: UIImage(systemName: "car.fill")!
+                )
+                
+                HereMapWrapper.shared?.moveCamera(points.first!)
+            }
+            
             Button("Clear Map") {
                 HereMapWrapper.shared?.clearMap()
             }
@@ -58,8 +83,10 @@ struct ContentView: View {
             ZStack {
                 MapViewUIRepresentable(mapView: $mapView)
                     .edgesIgnoringSafeArea(.all)
-                if showPopup {
-                    CustomPopupView(showPopup: $showPopup)
+                
+                if showPopup , let tapppedMarker = tapppedMarker {
+                    CustomPopupView(marker: tapppedMarker,
+                                    showPopup: $showPopup)
                 }
             }
                 
@@ -69,6 +96,7 @@ struct ContentView: View {
         .onAppear {
             HereMapWrapper.shared?.markerTapped = { marker in
                 print("HereMapWrapper. marker")
+                tapppedMarker = marker
                 showPopup = true
             }
         }
