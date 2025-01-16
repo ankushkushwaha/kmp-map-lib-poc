@@ -48,6 +48,10 @@ public class HereMapWrapper: @preconcurrency MapController {
         )
     }
     
+    @MainActor public func drawRoute(_ points: [heresdk.GeoCoordinates]) {
+        routingAction.drawRouteFromPoints(points: points)
+    }
+        
     @MainActor
     public init(accessKeyID: String,
                 accessKeySecret: String) {
@@ -72,6 +76,8 @@ public class HereMapWrapper: @preconcurrency MapController {
 
         // Load the map scene using a map scheme to render the map with.
         mapView.mapScene.loadScene(mapScheme: MapScheme.normalDay, completion: onLoadScene)
+        mapView.gestures.tapDelegate = self
+
     }
     
     @MainActor private func onLoadScene(mapError: MapError?) {
@@ -85,11 +91,27 @@ public class HereMapWrapper: @preconcurrency MapController {
     }
 }
 
+extension HereMapWrapper: @preconcurrency TapDelegate {
+
+    @MainActor public func onTap(origin: Point2D) {
+        mapView.pickMapItems(at: origin, radius: 2, completion: onMapItemsPicked)
+    }
+
+    func onMapItemsPicked(pickedMapItems: PickMapItemsResult?) {
+        guard let topmostMapMarker = pickedMapItems?.markers.first else {
+            return
+        }
+
+        print(topmostMapMarker.coordinates)
+    }
+}
+
 protocol MapController {
     func addMarker(_ point: GeoCoordinates, image: UIImage)
     func moveCamera(_ point: GeoCoordinates)
     func darwRoute(start: GeoCoordinates, end: GeoCoordinates,
                    routeColor: UIColor, widthInPixels: CGFloat)
+    func drawRoute(_ points: [GeoCoordinates])
 }
 
 extension GeoCoordinates: @unchecked @retroactive Sendable {}

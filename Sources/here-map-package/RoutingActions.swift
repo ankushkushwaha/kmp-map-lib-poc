@@ -115,4 +115,35 @@ public class RoutingActions {
         }
         mapPolylineList.removeAll()
     }
+    
+    public func drawRouteFromPoints(points: [GeoCoordinates]) {
+        if let mapPolyline = createMapPolyline(points) {
+            mapView.mapScene.addMapPolyline(mapPolyline)
+        }
+    }
+    
+    private func createMapPolyline(_ coordinates: [GeoCoordinates]) -> MapPolyline? {
+
+        // We are sure that the number of vertices is greater than two, so it will not crash.
+        let geoPolyline = try! GeoPolyline(vertices: coordinates)
+        let lineColor = UIColor(red: 0, green: 0.56, blue: 0.54, alpha: 0.63)
+        let mapPolyline: MapPolyline? = nil
+        let widthInPixels = 20.0
+        do {
+            let mapPolyline =  try MapPolyline(geometry: geoPolyline,
+                                                representation: MapPolyline.SolidRepresentation(
+                                                lineWidth: MapMeasureDependentRenderSize(
+                                                    sizeUnit: RenderSize.Unit.pixels,
+                                                    size: widthInPixels),
+                                                color: lineColor,
+                                                capShape: LineCap.round))
+
+            mapView.mapScene.addMapPolyline(mapPolyline)
+            mapPolylineList.append(mapPolyline)
+        } catch let error {
+            fatalError("Failed to render MapPolyline. Cause: \(error)")
+        }
+
+        return mapPolyline
+    }
 }
