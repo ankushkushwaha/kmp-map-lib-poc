@@ -12,7 +12,8 @@ import UIKit
 class MarkerActions {
  
     private let mapView: MapView
-    
+    private var mapMarkers = [MapMarker]()
+
     init(_ mapView: MapView) {
         self.mapView = mapView
     }
@@ -29,6 +30,14 @@ class MarkerActions {
         let mapMarker = MapMarker(at: point, image: mapImage)
         
         mapView.mapScene.addMapMarker(mapMarker)
-                
+        
+        mapMarkers.append(mapMarker)
+    }
+    
+    @MainActor public func clearMarkers() {
+        for mapMarker in mapMarkers {
+            mapView.mapScene.removeMapMarker(mapMarker)
+        }
+        mapMarkers.removeAll()
     }
 }
