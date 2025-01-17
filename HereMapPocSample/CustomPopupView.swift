@@ -32,9 +32,5 @@ struct CustomPopupView: View {
 }
 
 #Preview {
-    let imageData = UIImage(systemName: "car.fill")?.pngData()
-    
-    let mapImage = MapImage(pixelData: imageData!,
-                            imageFormat: ImageFormat.png)
     CustomPopupView(text: .constant("Title"))
 }
