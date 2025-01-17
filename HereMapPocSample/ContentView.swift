@@ -11,9 +11,8 @@ import heresdk
 
 struct ContentView: View {
     @State private var mapView = HereMapWrapper.shared!.mapView
-    @State private var tapppedMarker: MapMarker?
+    @State private var popupText: String?
     
-    @State var showPopup = false
     let markerMetadataKey = "metadata"
     
     var body: some View {
@@ -59,7 +58,6 @@ struct ContentView: View {
                 
                 let points = [
                     GeoCoordinates(latitude: 52.53032, longitude: 13.37409),
-                    GeoCoordinates(latitude: 52.53032, longitude: 13.37409),
                     GeoCoordinates(latitude: 52.5309, longitude: 13.3946),
                     GeoCoordinates(latitude: 52.53894, longitude: 13.39194),
                     GeoCoordinates(latitude: 52.54014, longitude: 13.37958),
@@ -74,14 +72,14 @@ struct ContentView: View {
                 let markersWithData = points.map { geoCoordinates in
                     MarkerWithData(
                         geoCoordinates: geoCoordinates,
-                        metaData: [markerMetadataKey: "Marker metadata for cluster:  \(geoCoordinates.latitude), \(geoCoordinates.longitude)"]
+                        metaData: [markerMetadataKey: "Marker metadata for cluster: \(geoCoordinates.latitude), \(geoCoordinates.longitude)"],
+                        image: UIImage(systemName: "car.fill")!
                     )
                 }
 
                 HereMapWrapper.shared?.addMarkerCluster(
                     markersWithData,
-                    clusterImage: UIImage(systemName: "circle.fill")!,
-                    markerImage: UIImage(systemName: "car.fill")!
+                    clusterImage: UIImage(systemName: "circle.fill")!
                 )
 
                 HereMapWrapper.shared?.moveCamera(points.first!)
@@ -95,28 +93,34 @@ struct ContentView: View {
                 MapViewUIRepresentable(mapView: $mapView)
                     .edgesIgnoringSafeArea(.all)
                 
-                if showPopup, let tapppedMarker = tapppedMarker {
-                    let data = tapppedMarker.metadata?.getString(key: markerMetadataKey)
-                    CustomPopupView(
-                        marker: tapppedMarker,
-                        metaData: data ?? "No MetaData Found",
-                        showPopup: $showPopup
-                    )
+                if let popupText = popupText {
+                    CustomPopupView(text: $popupText)
                 }
             }
         }
         .padding()
         .onAppear {
             HereMapWrapper.shared?.markerTapped = { marker in
-                print("HereMapWrapper. marker")
-                tapppedMarker = marker
-                showPopup = true
+                
+                let data = marker.metadata?.getString(key: markerMetadataKey) ?? ""
+                popupText = "Marker Tapped \n Metadata: \(String(describing: data))"
             }
             
-            HereMapWrapper.shared?.clusterTapped = { markers in
-                print("HereMapWrapper. marker")
-                tapppedMarker = markers.first!
-                showPopup = true
+            HereMapWrapper.shared?.clusterTapped = { markerGrouping in
+                let metaDataForAllSelectedMarkers = markerGrouping.markers.map {
+                    ($0.metadata?.getString(key: markerMetadataKey))!
+                }.joined(separator: "\n\n")
+                
+                popupText = """
+                Total markers in this tapped cluster marker: \(markerGrouping.markers.count)
+                
+                Total markers in this MapMarkerCluster: \(markerGrouping.parent.markers.count)
+                
+                ------------------
+                
+                \(metaDataForAllSelectedMarkers)
+
+                """
             }
         }
     }
