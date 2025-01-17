@@ -10,11 +10,10 @@ import UIKit
 class TapHandler: @preconcurrency TapDelegate {
     public var markerTapped: ((MapMarker) -> Void)?
     public var clusterTapped: ((MapMarkerCluster.Grouping) -> Void)?
-
+    
     private let mapView: MapView
     
-    @MainActor
-    init(_ mapView: MapView) {
+    @MainActor init(_ mapView: MapView) {
         self.mapView = mapView
         mapView.gestures.tapDelegate = self
     }
@@ -77,9 +76,6 @@ class TapHandler: @preconcurrency TapDelegate {
             }
             
             clusterTapped?(topmostGrouping)
-
-//            showDialog(title: "Map marker cluster picked",
-//                       message: "Number of contained markers in this cluster: \(clusterSize). \(metadataMessage) Total number of markers in this MapMarkerCluster: \(topmostGrouping.parent.markers.count)")
         }
     }
     
@@ -90,22 +86,4 @@ class TapHandler: @preconcurrency TapDelegate {
         return "No metadata."
     }
     
-    @MainActor private func showDialog(title: String, message: String) {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
-            
-            let alert = UIAlertController(
-                title: title,
-                message: message,
-                preferredStyle: .alert
-            )
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                // Handle OK button action.
-                alert.dismiss(animated: true, completion: nil)
-            }))
-            
-            rootViewController.present(alert, animated: true, completion: nil)
-        }
-    }
 }
