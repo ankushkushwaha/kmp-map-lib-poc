@@ -59,6 +59,7 @@ struct ContentView: View {
                 
                 let points = [
                     GeoCoordinates(latitude: 52.53032, longitude: 13.37409),
+                    GeoCoordinates(latitude: 52.53032, longitude: 13.37409),
                     GeoCoordinates(latitude: 52.5309, longitude: 13.3946),
                     GeoCoordinates(latitude: 52.53894, longitude: 13.39194),
                     GeoCoordinates(latitude: 52.54014, longitude: 13.37958),
@@ -69,13 +70,20 @@ struct ContentView: View {
                     GeoCoordinates(latitude: 52.53460, longitude: 13.39220),
                     GeoCoordinates(latitude: 52.53380, longitude: 13.37840)
                 ]
+                
+                let markersWithData = points.map { geoCoordinates in
+                    MarkerWithData(
+                        geoCoordinates: geoCoordinates,
+                        metaData: [markerMetadataKey: "Marker metadata for cluster:  \(geoCoordinates.latitude), \(geoCoordinates.longitude)"]
+                    )
+                }
 
                 HereMapWrapper.shared?.addMarkerCluster(
-                    points,
+                    markersWithData,
                     clusterImage: UIImage(systemName: "circle.fill")!,
                     markerImage: UIImage(systemName: "car.fill")!
                 )
-                
+
                 HereMapWrapper.shared?.moveCamera(points.first!)
             }
             
@@ -102,6 +110,12 @@ struct ContentView: View {
             HereMapWrapper.shared?.markerTapped = { marker in
                 print("HereMapWrapper. marker")
                 tapppedMarker = marker
+                showPopup = true
+            }
+            
+            HereMapWrapper.shared?.clusterTapped = { markers in
+                print("HereMapWrapper. marker")
+                tapppedMarker = markers.first!
                 showPopup = true
             }
         }
