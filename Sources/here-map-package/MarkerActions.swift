@@ -33,7 +33,7 @@ class MarkerActions {
         let mapMarker = MapMarker(at: point, image: mapImage)
         
         if let metaDataDict {
-            mapMarker.metadata = setMetaData(metaDataDict: metaDataDict)
+            mapMarker.setMetaData(metaDataDict: metaDataDict)
         }
         
         mapView.mapScene.addMapMarker(mapMarker)
@@ -55,9 +55,8 @@ class MarkerActions {
         mapMarkerClusters.removeAll()
     }
     
-    @MainActor public func addMapMarkerCluster(_ points: [GeoCoordinates],
-                                               clusterImage: UIImage,
-                                               markerImage: UIImage? = nil) {
+    @MainActor public func addMapMarkerCluster(_ markers: [MapMarker],
+                                               clusterImage: UIImage) {
         guard let imageData = clusterImage.pngData() else {
             print("Error: Image not found.")
             return
@@ -80,9 +79,8 @@ class MarkerActions {
         
         
         
-        for point in points {
-            mapMarkerCluster.addMapMarker(marker:
-                                            createMapMarker(point, "points", image: markerImage ?? clusterImage))
+        for marker in markers {
+            mapMarkerCluster.addMapMarker(marker: marker)
         }
         var index = 1
         for _ in 1...10 {
@@ -90,24 +88,6 @@ class MarkerActions {
             mapMarkerCluster.addMapMarker(marker: createRandomMapMarkerInViewport(indexString))
             index = index + 1
         }
-    }
-    
-    @MainActor func createMapMarker(_ geoCoordinates: GeoCoordinates,
-                                    _ metaDataText: String,
-                                    image: UIImage) -> MapMarker {
-        guard let imageData = image.pngData() else {
-            fatalError("Error: Image not found.")
-        }
-        
-        let mapImage = MapImage(pixelData: imageData,
-                                imageFormat: ImageFormat.png)
-        let mapMarker = MapMarker(at: geoCoordinates, image: mapImage)
-        
-        let metadata = Metadata()
-        metadata.setString(key: "key_cluster", value: metaDataText)
-        mapMarker.metadata = metadata
-        
-        return mapMarker
     }
     
     @MainActor func createRandomMapMarkerInViewport(_ metaDataText: String) -> MapMarker {
@@ -148,12 +128,14 @@ class MarkerActions {
     private func getRandom(min: Double, max: Double) -> Double {
         return Double.random(in: min ... max)
     }
-    
-    private func setMetaData(metaDataDict: [String: String]) -> Metadata {
+}
+
+extension MapMarker {
+    public func setMetaData(metaDataDict: [String: String]) {
         let metadata = Metadata()
         for (key, value) in metaDataDict {
             metadata.setString(key: key, value: value)
         }
-        return metadata
+        self.metadata = metadata
     }
 }

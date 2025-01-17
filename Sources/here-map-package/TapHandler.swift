@@ -9,7 +9,8 @@ import UIKit
 
 class TapHandler: @preconcurrency TapDelegate {
     public var markerTapped: ((MapMarker) -> Void)?
-    
+    public var clusterTapped: (([MapMarker]) -> Void)?
+
     private let mapView: MapView
     
     @MainActor
@@ -36,7 +37,6 @@ class TapHandler: @preconcurrency TapDelegate {
         let filter = MapScene.MapPickFilter(filter: contentTypesToPickFrom);
         
         mapView.pick(filter: filter, inside: rectangle, completion: onMapItemsPicked)
-        //        mapView.pickMapItems(at: origin, radius: 2, completion: onMapItemsPicked)
     }
     
     @MainActor func onMapItemsPicked(mapPickResults: MapPickResult?) {
@@ -65,17 +65,21 @@ class TapHandler: @preconcurrency TapDelegate {
             return
         }
         if (clusterSize == 1) {
-            let metadata = getClusterMetadata(topmostGrouping.markers.first!)
-            showDialog(title: "Map Marker picked", message: "This MapMarker belongs to a cluster. Metadata: \(metadata)")
+            
+            // individual marker belongs to a cluster
+            clusterTapped?(topmostGrouping.markers)
+            
         } else {
             var metadata = ""
             for mapMarker in topmostGrouping.markers {
                 metadata += getClusterMetadata(mapMarker)
                 metadata += " "
             }
-            let metadataMessage = "Contained Metadata: " + metadata + ". "
-            showDialog(title: "Map marker cluster picked",
-                       message: "Number of contained markers in this cluster: \(clusterSize). \(metadataMessage) Total number of markers in this MapMarkerCluster: \(topmostGrouping.parent.markers.count)")
+            
+            clusterTapped?(topmostGrouping.markers)
+
+//            showDialog(title: "Map marker cluster picked",
+//                       message: "Number of contained markers in this cluster: \(clusterSize). \(metadataMessage) Total number of markers in this MapMarkerCluster: \(topmostGrouping.parent.markers.count)")
         }
     }
     
