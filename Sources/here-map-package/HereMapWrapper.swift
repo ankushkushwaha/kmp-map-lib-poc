@@ -10,14 +10,18 @@ import heresdk
 import UIKit
 
 public class HereMapWrapper: @preconcurrency MapController {
- 
     
     public var markerTapped: ((MapMarker) -> Void)? {
         didSet {
             tapHandler.markerTapped = markerTapped
         }
     }
-        
+    public var clusterTapped: ((MapMarkerCluster.Grouping) -> Void)? {
+        didSet {
+            tapHandler.clusterTapped = clusterTapped
+        }
+    }
+    
     nonisolated(unsafe) public static var shared: HereMapWrapper?
     
     public let mapView: MapView
@@ -25,7 +29,7 @@ public class HereMapWrapper: @preconcurrency MapController {
     private let cameraAction: CameraAction
     private let routingAction: RoutingActions
     private let tapHandler: TapHandler
-
+    
     @MainActor public static func configure(accessKeyID: String, accessKeySecret: String) {
         guard shared == nil else {
             fatalError("HereMapWrapper is already configured.")
@@ -38,16 +42,27 @@ public class HereMapWrapper: @preconcurrency MapController {
         markerActions.clearMarkers()
     }
     
-    @MainActor public func addMarker(_ point: GeoCoordinates, image: UIImage) {
-        markerActions.addMarker(point, image: image)
+    @MainActor public func addMarker(_ point: GeoCoordinates,
+                                     image: UIImage,
+                                     metaDataDict: [String : String]? = nil) {
+        markerActions.addMarker(point, image: image,
+                                metaDataDict: metaDataDict)
     }
     
-    @MainActor public func addMarkerCluster(_ points: [GeoCoordinates],
-                                            clusterImage: UIImage,
-                                            markerImage: UIImage? = nil) {
-        markerActions.addMapMarkerCluster(points,
-                                          clusterImage: clusterImage,
-                                          markerImage: markerImage ?? clusterImage)
+    @MainActor public func addMarkerCluster(_ markers: [MarkerWithData],
+                                            clusterImage: UIImage) {
+        
+        var markerList: [MapMarker] = []
+        
+        for point in markers {
+            let marker = createMapMarker(point.geoCoordinates,
+                                         point.metaData,
+                                         image: point.image)
+            markerList.append(marker)
+        }
+        
+        markerActions.addMapMarkerCluster(markerList,
+                                          clusterImage: clusterImage)
     }
     
     @MainActor public func moveCamera(_ point: GeoCoordinates) {
@@ -55,7 +70,7 @@ public class HereMapWrapper: @preconcurrency MapController {
     }
     
     @MainActor public func darwRoute(start: GeoCoordinates,
-                              end: GeoCoordinates, routeColor: UIColor = .red, widthInPixels: CGFloat = 20.0) {
+                                     end: GeoCoordinates, routeColor: UIColor = .red, widthInPixels: CGFloat = 20.0) {
         routingAction.darwRoute(
             start: start,
             end: end,
@@ -67,7 +82,7 @@ public class HereMapWrapper: @preconcurrency MapController {
     @MainActor public func drawRoute(_ points: [heresdk.GeoCoordinates]) {
         routingAction.drawRouteFromPoints(points: points)
     }
-        
+    
     @MainActor
     public init(accessKeyID: String,
                 accessKeySecret: String) {
@@ -104,13 +119,31 @@ public class HereMapWrapper: @preconcurrency MapController {
         // Optionally, enable low speed zone map layer.
         mapView.mapScene.enableFeatures([MapFeatures.lowSpeedZones : MapFeatureModes.lowSpeedZonesAll]);
     }
+    
+    private func createMapMarker(_ geoCoordinates: GeoCoordinates,
+                                 _ metaDataDict: [String: String],
+                                 image: UIImage) -> MapMarker {
+        guard let imageData = image.pngData() else {
+            fatalError("Error: Image not found.")
+        }
+        
+        let mapImage = MapImage(pixelData: imageData,
+                                imageFormat: ImageFormat.png)
+        let mapMarker = MapMarker(at: geoCoordinates, image: mapImage)
+                
+        mapMarker.setMetaData(metaDataDict: metaDataDict)
+        
+        return mapMarker
+    }
 }
 
 protocol MapController {
-    func addMarker(_ point: GeoCoordinates, image: UIImage)
-    func addMarkerCluster(_ points: [GeoCoordinates],
-                                            clusterImage: UIImage,
-                                            markerImage: UIImage?)
+    func addMarker(_ point: GeoCoordinates,
+                   image: UIImage,
+                   metaDataDict: [String : String]?)
+    
+    func addMarkerCluster(_ markers: [MarkerWithData],
+                          clusterImage: UIImage)
     func moveCamera(_ point: GeoCoordinates)
     func darwRoute(start: GeoCoordinates, end: GeoCoordinates,
                    routeColor: UIColor, widthInPixels: CGFloat)
@@ -118,3 +151,17 @@ protocol MapController {
 }
 
 extension GeoCoordinates: @unchecked @retroactive Sendable {}
+
+public struct MarkerWithData {
+    public let geoCoordinates: GeoCoordinates
+    public let metaData: [String: String]
+    public let image: UIImage
+
+    public init(geoCoordinates: GeoCoordinates,
+                metaData: [String : String],
+                image: UIImage) {
+        self.geoCoordinates = geoCoordinates
+        self.metaData = metaData
+        self.image = image
+    }
+}
