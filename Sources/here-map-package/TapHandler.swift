@@ -9,7 +9,7 @@ import UIKit
 
 class TapHandler: @preconcurrency TapDelegate {
     public var markerTapped: ((MapMarker) -> Void)?
-    public var clusterTapped: (([MapMarker]) -> Void)?
+    public var clusterTapped: ((MapMarkerCluster.Grouping) -> Void)?
 
     private let mapView: MapView
     
@@ -67,7 +67,7 @@ class TapHandler: @preconcurrency TapDelegate {
         if (clusterSize == 1) {
             
             // individual marker belongs to a cluster
-            clusterTapped?(topmostGrouping.markers)
+            clusterTapped?(topmostGrouping)
             
         } else {
             var metadata = ""
@@ -76,7 +76,7 @@ class TapHandler: @preconcurrency TapDelegate {
                 metadata += " "
             }
             
-            clusterTapped?(topmostGrouping.markers)
+            clusterTapped?(topmostGrouping)
 
 //            showDialog(title: "Map marker cluster picked",
 //                       message: "Number of contained markers in this cluster: \(clusterSize). \(metadataMessage) Total number of markers in this MapMarkerCluster: \(topmostGrouping.parent.markers.count)")
@@ -108,13 +108,4 @@ class TapHandler: @preconcurrency TapDelegate {
             rootViewController.present(alert, animated: true, completion: nil)
         }
     }
-    
-    //    func onMapItemsPicked1(pickedMapItems: PickMapItemsResult?) {
-    //
-    //        if pickedMapItems?.markers.isEmpty , pickedMapItems
-    //        guard let topmostMapMarker = pickedMapItems?.markers.first else {
-    //            return
-    //        }
-    //        markerTapped?(topmostMapMarker)
-    //    }
 }

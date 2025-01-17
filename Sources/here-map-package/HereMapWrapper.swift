@@ -16,7 +16,7 @@ public class HereMapWrapper: @preconcurrency MapController {
             tapHandler.markerTapped = markerTapped
         }
     }
-    public var clusterTapped: (([MapMarker]) -> Void)? {
+    public var clusterTapped: ((MapMarkerCluster.Grouping) -> Void)? {
         didSet {
             tapHandler.clusterTapped = clusterTapped
         }
@@ -50,15 +50,14 @@ public class HereMapWrapper: @preconcurrency MapController {
     }
     
     @MainActor public func addMarkerCluster(_ markers: [MarkerWithData],
-                                            clusterImage: UIImage,
-                                            markerImage: UIImage? = nil) {
+                                            clusterImage: UIImage) {
         
         var markerList: [MapMarker] = []
         
         for point in markers {
             let marker = createMapMarker(point.geoCoordinates,
                                          point.metaData,
-                                         image: markerImage ?? clusterImage)
+                                         image: point.image)
             markerList.append(marker)
         }
         
@@ -144,8 +143,7 @@ protocol MapController {
                    metaDataDict: [String : String]?)
     
     func addMarkerCluster(_ markers: [MarkerWithData],
-                          clusterImage: UIImage,
-                          markerImage: UIImage?)
+                          clusterImage: UIImage)
     func moveCamera(_ point: GeoCoordinates)
     func darwRoute(start: GeoCoordinates, end: GeoCoordinates,
                    routeColor: UIColor, widthInPixels: CGFloat)
@@ -157,9 +155,13 @@ extension GeoCoordinates: @unchecked @retroactive Sendable {}
 public struct MarkerWithData {
     public let geoCoordinates: GeoCoordinates
     public let metaData: [String: String]
-    
-    public init(geoCoordinates: GeoCoordinates, metaData: [String : String]) {
+    public let image: UIImage
+
+    public init(geoCoordinates: GeoCoordinates,
+                metaData: [String : String],
+                image: UIImage) {
         self.geoCoordinates = geoCoordinates
         self.metaData = metaData
+        self.image = image
     }
 }

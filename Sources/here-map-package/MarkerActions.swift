@@ -77,17 +77,10 @@ class MarkerActions {
         mapView.mapScene.addMapMarkerCluster(mapMarkerCluster)
         mapMarkerClusters.append(mapMarkerCluster)
         
-        
-        
         for marker in markers {
             mapMarkerCluster.addMapMarker(marker: marker)
         }
-        var index = 1
-        for _ in 1...10 {
-            let indexString = String(index)
-            mapMarkerCluster.addMapMarker(marker: createRandomMapMarkerInViewport(indexString))
-            index = index + 1
-        }
+
     }
     
     @MainActor func createRandomMapMarkerInViewport(_ metaDataText: String) -> MapMarker {
