@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var tapppedMarker: MapMarker?
     
     @State var showPopup = false
+    let markerMetadataKey = "metadata"
+    
     var body: some View {
         VStack {
             
@@ -23,7 +25,8 @@ struct ContentView: View {
                         latitude: 52.520798,
                         longitude: 13.409408
                     ),
-                    image: UIImage(systemName: "car.fill")!
+                    image: UIImage(systemName: "car.fill")!,
+                    metaDataDict: [markerMetadataKey: "This is meta data"]
                 )
                 HereMapWrapper.shared?.moveCamera(GeoCoordinates(
                     latitude: 52.520798,
@@ -84,13 +87,15 @@ struct ContentView: View {
                 MapViewUIRepresentable(mapView: $mapView)
                     .edgesIgnoringSafeArea(.all)
                 
-                if showPopup , let tapppedMarker = tapppedMarker {
-                    CustomPopupView(marker: tapppedMarker,
-                                    showPopup: $showPopup)
+                if showPopup, let tapppedMarker = tapppedMarker {
+                    let data = tapppedMarker.metadata?.getString(key: markerMetadataKey)
+                    CustomPopupView(
+                        marker: tapppedMarker,
+                        metaData: data ?? "No MetaData Found",
+                        showPopup: $showPopup
+                    )
                 }
             }
-                
-
         }
         .padding()
         .onAppear {

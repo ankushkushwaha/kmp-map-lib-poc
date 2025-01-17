@@ -10,6 +10,7 @@ import heresdk
 
 struct CustomPopupView: View {
     let marker: MapMarker
+    let metaData: String
     @Binding var showPopup: Bool
     
     var body: some View {
@@ -20,6 +21,9 @@ struct CustomPopupView: View {
             Text("Location: \(marker.coordinates.latitude), \(marker.coordinates.longitude)")
                 .padding()
             
+            Text("Metadata: \(metaData)")
+                .padding()
+
             Button("Close") {
                 showPopup = false
             }
@@ -37,5 +41,5 @@ struct CustomPopupView: View {
     
     let mapImage = MapImage(pixelData: imageData!,
                             imageFormat: ImageFormat.png)
-    CustomPopupView(marker: MapMarker(at: GeoCoordinates(latitude: 0.0, longitude: 0.0), image: mapImage), showPopup: .constant(true))
+    CustomPopupView(marker: MapMarker(at: GeoCoordinates(latitude: 0.0, longitude: 0.0), image: mapImage), metaData: "Test", showPopup: .constant(true))
 }
