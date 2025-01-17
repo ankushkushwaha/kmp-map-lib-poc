@@ -66,14 +66,12 @@ public class RoutingActions {
     private func calculateRoute(waypoints: Array<Waypoint>){
         routingEngine.calculateRoute(with: waypoints,
                                      carOptions: getCaroptions()) { (routingError, routes) in
-            
             if routingError != nil {
                 return
             }
             
             let route = routes!.first
             self.showRouteOnMap(route: route!)
-            
         }
     }    
     
