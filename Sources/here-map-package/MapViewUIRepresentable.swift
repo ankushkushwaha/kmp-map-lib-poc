@@ -13,7 +13,7 @@ struct MapViewUIRepresentable: UIViewRepresentable {
     @Binding var mapView: MapView
 
     public init(mapView: Binding<MapView>) {
-           self._mapView = mapView
+        self._mapView = mapView
     }
     
     public func makeUIView(context: Context) -> MapView { return mapView }

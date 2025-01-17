@@ -38,8 +38,11 @@ public class HereMapWrapper: @preconcurrency MapController {
         markerActions.clearMarkers()
     }
     
-    @MainActor public func addMarker(_ point: GeoCoordinates, image: UIImage) {
-        markerActions.addMarker(point, image: image)
+    @MainActor public func addMarker(_ point: GeoCoordinates,
+                                     image: UIImage,
+                                     metaDataDict: [String : String]? = nil) {
+        markerActions.addMarker(point, image: image,
+                                metaDataDict: metaDataDict)
     }
     
     @MainActor public func addMarkerCluster(_ points: [GeoCoordinates],
@@ -107,7 +110,10 @@ public class HereMapWrapper: @preconcurrency MapController {
 }
 
 protocol MapController {
-    func addMarker(_ point: GeoCoordinates, image: UIImage)
+    func addMarker(_ point: GeoCoordinates,
+              image: UIImage,
+              metaDataDict: [String : String]?)
+    
     func addMarkerCluster(_ points: [GeoCoordinates],
                                             clusterImage: UIImage,
                                             markerImage: UIImage?)
