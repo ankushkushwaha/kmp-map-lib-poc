@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		549984982D40CDB100DAEA7A /* here-map-package in Frameworks */ = {isa = PBXBuildFile; productRef = 549984972D40CDB100DAEA7A /* here-map-package */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		549984852D40CD8E00DAEA7A /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				549984982D40CDB100DAEA7A /* here-map-package in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
+				549984972D40CDB100DAEA7A /* here-map-package */,
 			);
 			productName = Example;
 			productReference = 549984852D40CD8E00DAEA7A /* Example.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 5499847C2D40CD8E00DAEA7A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				549984962D40CDB100DAEA7A /* XCLocalSwiftPackageReference "../../lib-here-map-package" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 549984862D40CD8E00DAEA7A /* Products */;
 			projectDirPath = "";
@@ -324,6 +333,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		549984962D40CDB100DAEA7A /* XCLocalSwiftPackageReference "../../lib-here-map-package" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../lib-here-map-package";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		549984972D40CDB100DAEA7A /* here-map-package */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "here-map-package";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5499847D2D40CD8E00DAEA7A /* Project object */;
 }
