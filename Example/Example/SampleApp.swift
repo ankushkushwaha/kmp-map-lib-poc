@@ -35,8 +35,8 @@ struct ExampleApp: App {
 
 extension ExampleApp {
     private func initializeHERESDK() {
-        HereMapWrapper.configure(accessKeyID: ACCESS_KEY_ID,
-                                 accessKeySecret: ACCESS_KEY_SECRET)
+        HereMapWrapper.configure(accessKeyID: Constants.ACCESS_KEY_ID,
+                                 accessKeySecret: Constants.ACCESS_KEY_SECRET)
     }
     
     private func disposeHERESDK() {
