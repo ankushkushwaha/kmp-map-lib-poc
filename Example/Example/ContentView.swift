@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import here_map_package
+import HereMapTarget
 import heresdk
 
 struct ContentView: View {
