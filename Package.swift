@@ -5,24 +5,19 @@ import PackageDescription
 
 let package = Package(
     name: "here-map-package",
-    platforms: [
-            .iOS(.v15) // Specify the minimum supported iOS version here
-        ],
+    platforms: [.iOS(.v15)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "here-map-package",
-            targets: ["here-map-package"]),
+            targets: ["here-map-package"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/googlemaps/ios-maps-sdk", from: "9.3.0")
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        
         .target(
             name: "here-map-package",
-            dependencies: [
-                "heresdk"
-            ],
+            dependencies: selectedDependencies(),
             path: "Sources"
         ),
         .binaryTarget(
@@ -35,3 +30,15 @@ let package = Package(
         ),
     ]
 )
+
+func selectedDependencies() -> [Target.Dependency] {
+    var dependencies: [Target.Dependency] = []
+//#if HERE_MAPS
+    dependencies.append(.target(name: "heresdk"))
+//#endif
+//#if GOOGLE_MAPS
+    dependencies.append(.product(name: "GoogleMaps", package: "ios-maps-sdk"))
+//#endif
+    return dependencies
+}
+
