@@ -14,8 +14,10 @@ import SwiftUI
 //
 
 import SwiftUI
-import here_map_package
 import heresdk
+import GoogleMaps
+import MapboxMaps
+import HereMapTarget
 
 @main
 struct ExampleApp: App {

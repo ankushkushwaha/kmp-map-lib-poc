@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		549984982D40CDB100DAEA7A /* here-map-package in Frameworks */ = {isa = PBXBuildFile; productRef = 549984972D40CDB100DAEA7A /* here-map-package */; };
+		54D5B8E52D634EE1005032A5 /* GoogleMapsPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 54D5B8E42D634EE1005032A5 /* GoogleMapsPackage */; };
+		54D5B8E72D634FB5005032A5 /* MapboxPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 54D5B8E62D634FB5005032A5 /* MapboxPackage */; };
+		54D5B8E92D63501A005032A5 /* HereMapPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 54D5B8E82D63501A005032A5 /* HereMapPackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				549984982D40CDB100DAEA7A /* here-map-package in Frameworks */,
+				54D5B8E72D634FB5005032A5 /* MapboxPackage in Frameworks */,
+				54D5B8E92D63501A005032A5 /* HereMapPackage in Frameworks */,
+				54D5B8E52D634EE1005032A5 /* GoogleMapsPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				549984872D40CD8E00DAEA7A /* Example */,
+				54D5B7B22D631AE1005032A5 /* Frameworks */,
 				549984862D40CD8E00DAEA7A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +53,13 @@
 				549984852D40CD8E00DAEA7A /* Example.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		54D5B7B22D631AE1005032A5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -70,7 +82,9 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				549984972D40CDB100DAEA7A /* here-map-package */,
+				54D5B8E42D634EE1005032A5 /* GoogleMapsPackage */,
+				54D5B8E62D634FB5005032A5 /* MapboxPackage */,
+				54D5B8E82D63501A005032A5 /* HereMapPackage */,
 			);
 			productName = Example;
 			productReference = 549984852D40CD8E00DAEA7A /* Example.app */;
@@ -101,7 +115,7 @@
 			mainGroup = 5499847C2D40CD8E00DAEA7A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				549984962D40CDB100DAEA7A /* XCLocalSwiftPackageReference "../../lib-here-map-package" */,
+				54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 549984862D40CD8E00DAEA7A /* Products */;
@@ -274,6 +288,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.map.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -303,6 +318,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.map.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -335,16 +351,27 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		549984962D40CDB100DAEA7A /* XCLocalSwiftPackageReference "../../lib-here-map-package" */ = {
+		54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "../../lib-here-map-package";
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		549984972D40CDB100DAEA7A /* here-map-package */ = {
+		54D5B8E42D634EE1005032A5 /* GoogleMapsPackage */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = "here-map-package";
+			package = 54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */;
+			productName = GoogleMapsPackage;
+		};
+		54D5B8E62D634FB5005032A5 /* MapboxPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */;
+			productName = MapboxPackage;
+		};
+		54D5B8E82D63501A005032A5 /* HereMapPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */;
+			productName = HereMapPackage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
