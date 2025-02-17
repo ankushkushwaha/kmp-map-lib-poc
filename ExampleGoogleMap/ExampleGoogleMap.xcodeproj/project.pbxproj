@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5486CFD92D636D1600EC687B /* GoogleMapsPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 5486CFD82D636D1600EC687B /* GoogleMapsPackage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5486CFBD2D636CAC00EC687B /* ExampleGoogleMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleGoogleMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5486CFD92D636D1600EC687B /* GoogleMapsPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = ExampleGoogleMap;
 			packageProductDependencies = (
+				5486CFD82D636D1600EC687B /* GoogleMapsPackage */,
 			);
 			productName = ExampleGoogleMap;
 			productReference = 5486CFBD2D636CAC00EC687B /* ExampleGoogleMap.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 5486CFB42D636CAC00EC687B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5486CFD72D636D1600EC687B /* XCLocalSwiftPackageReference "../../lib-here-map-package" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5486CFBE2D636CAC00EC687B /* Products */;
 			projectDirPath = "";
@@ -324,6 +333,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		5486CFD72D636D1600EC687B /* XCLocalSwiftPackageReference "../../lib-here-map-package" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../lib-here-map-package";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5486CFD82D636D1600EC687B /* GoogleMapsPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GoogleMapsPackage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5486CFB52D636CAC00EC687B /* Project object */;
 }
