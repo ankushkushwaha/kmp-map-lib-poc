@@ -1,37 +1,59 @@
-// swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
+// swift-tools-version: 5.7
 import PackageDescription
 
 let package = Package(
     name: "here-map-package",
-    platforms: [
-            .iOS(.v15) // Specify the minimum supported iOS version here
-        ],
+    platforms: [.iOS(.v15), .macOS(.v11)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "here-map-package",
-            targets: ["here-map-package"]),
+            name: "GoogleMapsPackage",
+            targets: ["GoogleMapTarget"]
+        ),
+        .library(
+            name: "MapboxPackage",
+            targets: ["MapboxTarget"]
+        ),
+        .library(
+            name: "HereMapPackage",
+            targets: ["HereMapTarget"]
+        )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/googlemaps/ios-maps-sdk", from: "9.3.0"),
+        .package(url: "https://github.com/mapbox/mapbox-maps-ios", from: "11.10.0"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        
+        // ✅ Google Maps Target
         .target(
-            name: "here-map-package",
+            name: "GoogleMapTarget",
             dependencies: [
-                "heresdk"
+                .product(name: "GoogleMaps", package: "ios-maps-sdk")
             ],
-            path: "Sources"
+            path: "Sources/GoogleMaps"
         ),
+
+        // ✅ Mapbox Target
+        .target(
+            name: "MapboxTarget",
+            dependencies: [
+                .product(name: "MapboxMaps", package: "mapbox-maps-ios")
+            ],
+            path: "Sources/Mapbox"
+        ),
+
+        // ✅ HERE Maps Target (Fix)
+        .target(
+            name: "HereMapTarget",
+            dependencies: [
+                .target(name: "HereSDKBinary") // Link the binary framework
+            ],
+            path: "Sources/HereMaps" // Ensure your Here Maps source files exist
+        ),
+
+        // ✅ Binary Target for HERE SDK
         .binaryTarget(
-            name: "heresdk",
+            name: "HereSDKBinary",
             path: "Frameworks/heresdk.xcframework"
-        ),
-        .testTarget(
-            name: "here-map-packageTests",
-            dependencies: ["here-map-package"]
-        ),
+        )
     ]
 )
