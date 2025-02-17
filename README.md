@@ -1,3 +1,3 @@
-# here-map-library-package
+# Map-library-package
 
 ![Alt Text](preview.gif)
