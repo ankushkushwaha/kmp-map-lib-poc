@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		54D5B8E52D634EE1005032A5 /* GoogleMapsPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 54D5B8E42D634EE1005032A5 /* GoogleMapsPackage */; };
-		54D5B8E72D634FB5005032A5 /* MapboxPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 54D5B8E62D634FB5005032A5 /* MapboxPackage */; };
 		54D5B8E92D63501A005032A5 /* HereMapPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 54D5B8E82D63501A005032A5 /* HereMapPackage */; };
 /* End PBXBuildFile section */
 
@@ -29,9 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54D5B8E72D634FB5005032A5 /* MapboxPackage in Frameworks */,
 				54D5B8E92D63501A005032A5 /* HereMapPackage in Frameworks */,
-				54D5B8E52D634EE1005032A5 /* GoogleMapsPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,8 +78,6 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				54D5B8E42D634EE1005032A5 /* GoogleMapsPackage */,
-				54D5B8E62D634FB5005032A5 /* MapboxPackage */,
 				54D5B8E82D63501A005032A5 /* HereMapPackage */,
 			);
 			productName = Example;
@@ -358,16 +352,6 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		54D5B8E42D634EE1005032A5 /* GoogleMapsPackage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */;
-			productName = GoogleMapsPackage;
-		};
-		54D5B8E62D634FB5005032A5 /* MapboxPackage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */;
-			productName = MapboxPackage;
-		};
 		54D5B8E82D63501A005032A5 /* HereMapPackage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 54D5B8D42D634E22005032A5 /* XCLocalSwiftPackageReference "../../lib-here-map-package" */;
