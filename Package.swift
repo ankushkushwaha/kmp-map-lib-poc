@@ -20,6 +20,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/googlemaps/ios-maps-sdk", from: "9.3.0"),
+        .package(url: "https://github.com/googlemaps/google-maps-ios-utils", from: "6.1.0"),
         .package(url: "https://github.com/mapbox/mapbox-maps-ios", from: "11.10.0"),
     ],
     targets: [
@@ -27,7 +28,8 @@ let package = Package(
         .target(
             name: "GoogleMapTarget",
             dependencies: [
-                .product(name: "GoogleMaps", package: "ios-maps-sdk")
+                .product(name: "GoogleMaps", package: "ios-maps-sdk"),
+                .product(name: "GoogleMapsUtils", package: "google-maps-ios-utils")
             ],
             path: "Sources/GoogleMaps"
         ),
