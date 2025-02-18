@@ -44,8 +44,12 @@ public class GoogleMapWrapper: MapController {
         markerAction?.addMarkers(points)
     }
     
-    func addMarkerCluster(_ markers: [MarkerWithData], clusterImage: UIImage) {
+    public func addMarkerCluster(_ markers: [MarkerWithData], clusterImage: UIImage) {
         
+        let markers = markers.map { marker in
+            marker.geoCoordinates
+        }
+        markerAction?.addClusterMarkers(markers)
     }
     
     @MainActor public func moveCamera(_ point: CLLocationCoordinate2D) {

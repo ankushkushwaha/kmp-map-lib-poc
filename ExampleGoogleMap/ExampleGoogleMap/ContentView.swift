@@ -27,6 +27,37 @@ struct ContentView: View {
                 GoogleMapWrapper.shared!.moveCamera(markerCoordinates.first!)
             }
             
+            Button("Add Clusters") {
+                
+                let points = [
+                    CLLocationCoordinate2D(latitude: 52.53032, longitude: 13.37409),
+                    CLLocationCoordinate2D(latitude: 52.5309, longitude: 13.3946),
+                    CLLocationCoordinate2D(latitude: 52.53894, longitude: 13.39194),
+                    CLLocationCoordinate2D(latitude: 52.54014, longitude: 13.37958),
+                    CLLocationCoordinate2D(latitude: 52.53150, longitude: 13.38050),
+                    CLLocationCoordinate2D(latitude: 52.53500, longitude: 13.38200),
+                    CLLocationCoordinate2D(latitude: 52.53275, longitude: 13.38800),
+                    CLLocationCoordinate2D(latitude: 52.53720, longitude: 13.37550),
+                    CLLocationCoordinate2D(latitude: 52.53460, longitude: 13.39220),
+                    CLLocationCoordinate2D(latitude: 52.53380, longitude: 13.37840)
+                ]
+                
+                let markersWithData = points.map { coordinates in
+                    MarkerWithData(
+                        geoCoordinates: coordinates,
+                        metaData: ["markerMetadataKey": "Marker metadata for cluster: \(coordinates.latitude), \(coordinates.longitude)"],
+                        image: UIImage(systemName: "car.fill")!
+                    )
+                }
+
+                GoogleMapWrapper.shared?.addMarkerCluster(
+                    markersWithData,
+                    clusterImage: UIImage(systemName: "circle.fill")!
+                )
+                
+                GoogleMapWrapper.shared!.moveCamera(points.first!)
+            }
+            
             
             Button("Add Route") {
                 

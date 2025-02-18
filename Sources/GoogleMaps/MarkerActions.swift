@@ -14,7 +14,7 @@ public class MarkerActions: NSObject {
     private let mapView: GMSMapView
     private var mapMarkers = [GMSMarker]()
     private var clusterMarkers = [GMSMarker]()
-    private var clusterManager: GMUClusterManager
+    private let clusterManager: GMUClusterManager
 
     init(_ mapView: GMSMapView) {
         self.mapView = mapView
@@ -23,7 +23,6 @@ public class MarkerActions: NSObject {
             algorithm: GMUNonHierarchicalDistanceBasedAlgorithm(),
             renderer: GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: GMUDefaultClusterIconGenerator())
         )
-
     }
     
     public func addMarkers(_ markers: [CLLocationCoordinate2D]) {
@@ -36,14 +35,14 @@ public class MarkerActions: NSObject {
     }
     
     
-    public func addClusterMarkers(_ markers: [CLLocationCoordinate2D]) {
-        for markerCoordinate in markers {
+    public func addClusterMarkers(_ points: [CLLocationCoordinate2D]) {
+        var arr: [GMSMarker] = []
+        for markerCoordinate in points {
             let marker = GMSMarker(position: markerCoordinate)
-            clusterMarkers.append(marker)
+            arr.append(marker)
         }
-        
+        clusterManager.add(arr)
         clusterManager.setMapDelegate(self)
-
     }
     
     
