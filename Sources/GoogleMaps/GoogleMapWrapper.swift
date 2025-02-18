@@ -10,13 +10,13 @@ import GoogleMaps
 
 public class GoogleMapWrapper: MapController {
 
-    
-    
-    public let mapView: GMSMapView
+    public var mapView: GMSMapView?
+    public var mapViewRepresentable: MapRepresentable
 
     public static var shared: GoogleMapWrapper?
-    private let cameraAction: CameraAction
-    private let markerAction: MarkerActions
+    private var cameraAction: CameraAction?
+    private var markerAction: MarkerActions?
+    private var routingAction: RoutingActions?
 
     public static func configure(_ accessKeyID: String) {
         guard shared == nil else {
@@ -28,15 +28,20 @@ public class GoogleMapWrapper: MapController {
     init(_ accessKey: String) {
         
         GMSServices.provideAPIKey(accessKey)
-        self.mapView = GMSMapView()
-        self.cameraAction = CameraAction(mapView)
-        self.markerAction = MarkerActions(mapView)
-    }
-    
+
+        self.mapViewRepresentable = MapRepresentable()
         
-    
+        mapViewRepresentable.mapCreated = { [weak self] mapView in
+            self?.mapView = mapView
+            
+            self?.cameraAction = CameraAction(mapView)
+            self?.markerAction = MarkerActions(mapView)
+            self?.routingAction = RoutingActions(mapView)
+        }
+    }
+        
     public func addMarkers(_ points: [CLLocationCoordinate2D], image: UIImage?, metaDataDict: [String : String]?) {
-        markerAction.addMarkers(points)
+        markerAction?.addMarkers(points)
     }
     
     func addMarkerCluster(_ markers: [MarkerWithData], clusterImage: UIImage) {
@@ -44,15 +49,15 @@ public class GoogleMapWrapper: MapController {
     }
     
     @MainActor public func moveCamera(_ point: CLLocationCoordinate2D) {
-        cameraAction.moveCamera(to: point)
+        cameraAction?.moveCamera(to: point)
     }
     
     func darwRoute(start: CLLocationCoordinate2D, end: CLLocationCoordinate2D, routeColor: UIColor, widthInPixels: CGFloat) {
         
     }
     
-    func drawRoute(_ points: [CLLocationCoordinate2D]) {
-        
+    public func drawRoute(_ points: [CLLocationCoordinate2D]) {
+        routingAction?.addRoute(points: points)
     }
     
     
