@@ -79,11 +79,6 @@ struct ContentView: View {
             }
             
             GoogleMapWrapper.shared?.mapViewRepresentable
-//            MapViewUIRepresentable(mapView: $mapView)
-            
-//            GoogleMapView().ignoresSafeArea()
-            
-//            GoogleMapView2(mapView: $mapView).ignoresSafeArea()
 
         }
         .padding()
