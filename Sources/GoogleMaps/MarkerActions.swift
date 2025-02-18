@@ -7,21 +7,64 @@
 
 import Foundation
 import GoogleMaps
+import GoogleMapsUtils
 
-public struct MarkerActions {
+public class MarkerActions: NSObject {
     
     private let mapView: GMSMapView
     private var mapMarkers = [GMSMarker]()
-    
+    private var clusterMarkers = [GMSMarker]()
+    private var clusterManager: GMUClusterManager
+
     init(_ mapView: GMSMapView) {
         self.mapView = mapView
+        self.clusterManager = GMUClusterManager(
+            map: mapView,
+            algorithm: GMUNonHierarchicalDistanceBasedAlgorithm(),
+            renderer: GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: GMUDefaultClusterIconGenerator())
+        )
+
     }
     
     public func addMarkers(_ markers: [CLLocationCoordinate2D]) {
         for markerCoordinate in markers {
-            let marker = GMSMarker()
-            marker.position = markerCoordinate
+            let marker = GMSMarker(position: markerCoordinate)
             marker.map = mapView
+            
+            mapMarkers.append(marker)
         }
     }
+    
+    
+    public func addClusterMarkers(_ markers: [CLLocationCoordinate2D]) {
+        for markerCoordinate in markers {
+            let marker = GMSMarker(position: markerCoordinate)
+            clusterMarkers.append(marker)
+        }
+        
+        clusterManager.setMapDelegate(self)
+
+    }
+    
+    
+}
+
+extension MarkerActions: GMSMapViewDelegate  {
+   
+    public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+      // center the map on tapped marker
+      mapView.animate(toLocation: marker.position)
+      // check if a cluster icon was tapped
+      if marker.userData is GMUCluster {
+        // zoom in on tapped cluster
+        mapView.animate(toZoom: mapView.camera.zoom + 1)
+        NSLog("Did tap cluster")
+        return true
+      }
+
+      NSLog("Did tap a normal marker")
+      return false
+    }
+          
+          
 }
