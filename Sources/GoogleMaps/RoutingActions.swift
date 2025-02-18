@@ -9,7 +9,7 @@ import Foundation
 import GoogleMaps
 
 public struct RoutingActions {
-    private var mapView: GMSMapView
+    private weak var mapView: GMSMapView?
 
     public init(_ mapView: GMSMapView) {
         self.mapView = mapView

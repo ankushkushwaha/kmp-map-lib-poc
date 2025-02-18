@@ -11,7 +11,7 @@ import GoogleMapsUtils
 
 public class MarkerActions: NSObject {
     
-    private let mapView: GMSMapView
+    private weak var mapView: GMSMapView?
     private var mapMarkers = [GMSMarker]()
     private var clusterMarkers = [GMSMarker]()
     private let clusterManager: GMUClusterManager
@@ -44,8 +44,6 @@ public class MarkerActions: NSObject {
         clusterManager.add(arr)
         clusterManager.setMapDelegate(self)
     }
-    
-    
 }
 
 extension MarkerActions: GMSMapViewDelegate  {
