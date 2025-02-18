@@ -8,27 +8,24 @@ import UIKit
 import SwiftUI
 import GoogleMaps
 
-public struct MapViewUIRepresentable: UIViewControllerRepresentable {
+public struct MapRepresentable: UIViewRepresentable {
+      
+    public var mapCreated: ((GMSMapView) -> Void)?
 
-    @Binding var mapView: GMSMapView
-    
-    public init(mapView: Binding<GMSMapView>) {
-        self._mapView = mapView
+    public class Coordinator: NSObject, GMSMapViewDelegate {}
+
+    public func makeCoordinator() -> Coordinator {
+        return Coordinator()
     }
     
-    public func makeUIViewController(context: Context) -> UIViewController {
-        let viewController = UIViewController()
-        let camera = GMSCameraPosition(latitude: 37.7749, longitude: -122.4194, zoom: 12.0)
-        mapView.camera = camera
-        // Enable user location
-        mapView.isMyLocationEnabled = true
-        mapView.settings.myLocationButton = true
+    public func makeUIView(context: Context) -> GMSMapView {
+        let mapView = GMSMapView(frame: .zero)
+
+//        mapView.delegate = context.coordinator
         
-        viewController.view = mapView
-        return viewController
+        mapCreated?(mapView)
+        return mapView
     }
-    
-    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        // Can update camera position or markers here if needed
-    }
+
+    public func updateUIView(_ uiView: GMSMapView, context: Context) {}
 }
