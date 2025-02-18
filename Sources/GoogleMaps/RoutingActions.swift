@@ -6,10 +6,15 @@
 //
 
 import Foundation
+import GoogleMaps
 
-struct RoutingAction {
-    private var mapView: MapView
+public struct RoutingActions {
+    private var mapView: GMSMapView
 
+    public init(_ mapView: GMSMapView) {
+        self.mapView = mapView
+    }
+    
     func addRoute(points: [CLLocationCoordinate2D]) {
         let path = GMSMutablePath()
         

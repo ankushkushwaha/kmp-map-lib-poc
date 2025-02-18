@@ -17,7 +17,7 @@ public protocol MapController {
     func moveCamera(_ point: CLLocationCoordinate2D)
 //    func darwRoute(start: CLLocationCoordinate2D, end: CLLocationCoordinate2D,
 //                   routeColor: UIColor, widthInPixels: CGFloat)
-//    func drawRoute(_ points: [CLLocationCoordinate2D])
+    func drawRoute(_ points: [CLLocationCoordinate2D])
 }
 
 
