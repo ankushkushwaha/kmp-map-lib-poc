@@ -10,16 +10,16 @@ import here_map_package
 
 struct ContentView: View {
     
-    let hereMap = HereMapWrapper(accessKeyID: ACCESS_KEY_ID, accessKeySecret: ACCESS_KEY_SECRET)
+    let hereMap = HereMapWrapper(accessKeyID: ACCESS_KEY_ID,
+                                 accessKeySecret: ACCESS_KEY_SECRET)
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            
             Button("Show map") {
                 hereMap.addPin(at: 2)
             }
+            
+            MapViewUIRepresentable()
         }
         .padding()
     }
