@@ -101,24 +101,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
-public struct GoogleMapView: UIViewRepresentable {
-    public class Coordinator: NSObject, GMSMapViewDelegate {}
-
-    public func makeCoordinator() -> Coordinator {
-        return Coordinator()
-    }
-
-    public func makeUIView(context: Context) -> GMSMapView {
-        let camera = GMSCameraPosition.camera(withLatitude: 52.5200, longitude: 13.4050, zoom: 10)
-        let mapView = GMSMapView(frame: .zero, camera: camera)
-
-        // Set delegate to prevent crashes and handle touch events
-        mapView.delegate = context.coordinator
-        
-        return mapView
-    }
-
-    public func updateUIView(_ uiView: GMSMapView, context: Context) {}
-}
-
