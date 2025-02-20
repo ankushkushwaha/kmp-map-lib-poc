@@ -70,8 +70,6 @@ public class GoogleMapWrapper: MapController {
     public func clearMap() {
         mapView?.clear()
     }
-
-    
 }
 
 
