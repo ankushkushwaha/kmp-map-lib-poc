@@ -15,7 +15,8 @@ class CameraAction {
         self.mapView = mapView
     }
     
-    @MainActor func moveCamera(to point: CLLocationCoordinate2D, zoomLevel: Float = 11.0) {
+    func moveCamera(to point: CLLocationCoordinate2D,
+                               zoomLevel: Float = 10.0) {
         let camera = GMSCameraPosition(latitude: point.latitude, longitude: point.longitude, zoom: zoomLevel)
         mapView?.animate(to: camera)
     }

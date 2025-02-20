@@ -12,7 +12,9 @@ public protocol MapController {
 
     func addMarkerCluster(_ markers: [MarkerWithData],
                           clusterImage: UIImage)
-    func moveCamera(_ point: CLLocationCoordinate2D)
+    func moveCamera(_ point: CLLocationCoordinate2D,
+                           zoomLevel: Float?)
+
     func drawRoute(_ points: [CLLocationCoordinate2D])
     func clearMap()
 }

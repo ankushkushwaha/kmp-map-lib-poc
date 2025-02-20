@@ -9,7 +9,7 @@ import Foundation
 import GoogleMaps
 
 public class GoogleMapWrapper: MapController {
-
+    
     public var mapView: GMSMapView?
     public var mapViewRepresentable: MapRepresentable
     public var tapHandler: ((GMSMarker) -> Void)?
@@ -55,8 +55,10 @@ public class GoogleMapWrapper: MapController {
         markerAction?.addClusterMarkers(markers)
     }
     
-    @MainActor public func moveCamera(_ point: CLLocationCoordinate2D) {
-        cameraAction?.moveCamera(to: point)
+    public func moveCamera(_ point: CLLocationCoordinate2D,
+                           zoomLevel: Float? =  12.0) {
+        cameraAction?.moveCamera(to: point,
+                                 zoomLevel: zoomLevel ?? 12.0)
     }
     
     func darwRoute(start: CLLocationCoordinate2D, end: CLLocationCoordinate2D, routeColor: UIColor, widthInPixels: CGFloat) {
