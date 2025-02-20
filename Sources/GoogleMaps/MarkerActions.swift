@@ -14,8 +14,6 @@ public class MarkerActions: NSObject {
     private weak var mapView: GMSMapView?
     public var tapHandler: ((GMSMarker) -> Void)?
     
-    private var mapMarkers = [GMSMarker]()
-    private var clusterMarkers = [GMSMarker]()
     private var clusterManager: GMUClusterManager?
 
     init(_ mapView: GMSMapView) {
@@ -29,7 +27,6 @@ public class MarkerActions: NSObject {
             marker.icon = markerWithData.image
             marker.map = mapView
             marker.userData = markerWithData.metaData
-            mapMarkers.append(marker)
         }
         
         mapView?.delegate = self

@@ -93,7 +93,7 @@ struct ContentView: View {
                     CLLocationCoordinate2D(latitude: 52.4550, longitude: 13.2901)  // Wannsee (Furthest South-West)
                 ]
 
-                GoogleMapWrapper.shared?.drawRoute(points)
+                GoogleMapWrapper.shared?.drawRoute(points, width: 5.0)
                 
                 GoogleMapWrapper.shared!.moveCamera(points.first!)
             }

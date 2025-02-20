@@ -15,7 +15,9 @@ public struct RoutingActions {
         self.mapView = mapView
     }
     
-    func addRoute(points: [CLLocationCoordinate2D]) {
+    func addRoute(points: [CLLocationCoordinate2D],
+                  width: CGFloat? = 5.0,
+                  color: UIColor? = UIColor(red: 0, green: 0.56, blue: 0.54, alpha: 0.63)) {
         let path = GMSMutablePath()
         
         for point in points {
@@ -23,8 +25,8 @@ public struct RoutingActions {
         }
 
         let polyline = GMSPolyline(path: path)
-        polyline.strokeColor = .blue
-        polyline.strokeWidth = 5
+        polyline.strokeColor = color ?? .blue
+        polyline.strokeWidth = width ?? 5.0
         polyline.map = mapView
     }
 }

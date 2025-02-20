@@ -15,7 +15,7 @@ public protocol MapController {
     func moveCamera(_ point: CLLocationCoordinate2D,
                            zoomLevel: Float?)
 
-    func drawRoute(_ points: [CLLocationCoordinate2D])
+    func drawRoute(_ points: [CLLocationCoordinate2D], width: CGFloat?, color: UIColor?)
     func clearMap()
 }
 

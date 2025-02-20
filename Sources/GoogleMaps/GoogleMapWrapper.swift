@@ -61,12 +61,9 @@ public class GoogleMapWrapper: MapController {
                                  zoomLevel: zoomLevel ?? 12.0)
     }
     
-    func darwRoute(start: CLLocationCoordinate2D, end: CLLocationCoordinate2D, routeColor: UIColor, widthInPixels: CGFloat) {
-        
-    }
-    
-    public func drawRoute(_ points: [CLLocationCoordinate2D]) {
-        routingAction?.addRoute(points: points)
+    public func drawRoute(_ points: [CLLocationCoordinate2D],
+                          width: CGFloat? = 5.0, color: UIColor? = .blue) {
+        routingAction?.addRoute(points: points, width: width, color: color)
     }
     
     public func clearMap() {
