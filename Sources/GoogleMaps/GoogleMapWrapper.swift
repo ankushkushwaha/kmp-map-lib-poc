@@ -67,6 +67,10 @@ public class GoogleMapWrapper: MapController {
         routingAction?.addRoute(points: points)
     }
     
+    public func clearMap() {
+        mapView?.clear()
+    }
+
     
 }
 
