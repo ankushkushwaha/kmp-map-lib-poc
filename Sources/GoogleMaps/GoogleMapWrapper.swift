@@ -39,7 +39,6 @@ public class GoogleMapWrapper: MapController {
             self?.markerAction = MarkerActions(mapView)
             self?.routingAction = RoutingActions(mapView)
             
-            
             self?.markerAction?.tapHandler = { marker in
                 self?.tapHandler?(marker)
             }
@@ -52,7 +51,8 @@ public class GoogleMapWrapper: MapController {
     
     public func addMarkerCluster(_ markers: [MarkerWithData],
                                  clusterImage: UIImage) {
-        markerAction?.addClusterMarkers(markers)
+        markerAction?.addClusterMarkers(markers,
+                                        clusterImage: clusterImage)
     }
     
     public func moveCamera(_ point: CLLocationCoordinate2D,

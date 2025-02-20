@@ -62,12 +62,14 @@ struct ContentView: View {
                     )
                 }
 
+                let image = UIImage(named: "car")
+                
                 GoogleMapWrapper.shared?.addMarkerCluster(
                     markersWithData,
-                    clusterImage: UIImage(systemName: "circle.fill")!
+                    clusterImage: image!
                 )
                 
-                GoogleMapWrapper.shared!.moveCamera(points.first!)
+                GoogleMapWrapper.shared!.moveCamera(points.first!, zoomLevel: 13.0)
             }
             
             

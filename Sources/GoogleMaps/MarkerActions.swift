@@ -16,20 +16,17 @@ public class MarkerActions: NSObject {
     
     private var mapMarkers = [GMSMarker]()
     private var clusterMarkers = [GMSMarker]()
-    private let clusterManager: GMUClusterManager
+    private var clusterManager: GMUClusterManager?
 
     init(_ mapView: GMSMapView) {
         self.mapView = mapView
-        self.clusterManager = GMUClusterManager(
-            map: mapView,
-            algorithm: GMUNonHierarchicalDistanceBasedAlgorithm(),
-            renderer: GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: GMUDefaultClusterIconGenerator())
-        )
     }
     
     public func addMarkers(_ markers: [MarkerWithData]) {
         for markerWithData in markers {
             let marker = GMSMarker(position: markerWithData.geoCoordinates)
+            
+            marker.icon = markerWithData.image
             marker.map = mapView
             marker.userData = markerWithData.metaData
             mapMarkers.append(marker)
@@ -38,15 +35,28 @@ public class MarkerActions: NSObject {
         mapView?.delegate = self
     }
     
-    public func addClusterMarkers(_ markers: [MarkerWithData]) {
+    public func addClusterMarkers(_ markers: [MarkerWithData],
+                                  clusterImage: UIImage?) {
+        guard let mapView = mapView else {
+            return
+        }
+        self.clusterManager = GMUClusterManager(
+            map: mapView,
+            algorithm: GMUNonHierarchicalDistanceBasedAlgorithm(),
+            renderer: GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: CustomClusterIconGenerator(customImage: clusterImage))
+        )
+
+        
         var arr: [GMSMarker] = []
         for markerWithData in markers {
             let marker = GMSMarker(position: markerWithData.geoCoordinates)
+            marker.icon = markerWithData.image
             marker.userData = markerWithData.metaData
             arr.append(marker)
         }
-        clusterManager.add(arr)
-        clusterManager.setMapDelegate(self)
+        
+        clusterManager?.add(arr)
+        clusterManager?.setMapDelegate(self)
     }
 }
 
@@ -60,5 +70,18 @@ extension MarkerActions: GMSMapViewDelegate, GMUClusterManagerDelegate {
         mapView.animate(toLocation: marker.position)
         
         return false
+    }
+}
+
+class CustomClusterIconGenerator: GMUDefaultClusterIconGenerator {
+    private let customImage: UIImage?
+
+    init(customImage: UIImage?) {
+        self.customImage = customImage
+        super.init()
+    }
+
+    override func icon(forSize size: UInt) -> UIImage {
+        return customImage ?? super.icon(forSize: size)
     }
 }
