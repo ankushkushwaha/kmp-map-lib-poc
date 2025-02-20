@@ -62,17 +62,23 @@ struct ContentView: View {
             Button("Add Route") {
                 
                 let points: [CLLocationCoordinate2D] = [
-                    CLLocationCoordinate2D(latitude: 53.5511, longitude: 9.9937),  // Hamburg
-                    CLLocationCoordinate2D(latitude: 52.5200, longitude: 13.4050), // Berlin
-                    CLLocationCoordinate2D(latitude: 51.0504, longitude: 13.7373), // Dresden
-                    CLLocationCoordinate2D(latitude: 50.9375, longitude: 6.9603),  // Cologne
-                    CLLocationCoordinate2D(latitude: 50.1109, longitude: 8.6821),  // Frankfurt
-                    CLLocationCoordinate2D(latitude: 48.1351, longitude: 11.5820), // Munich
-                    CLLocationCoordinate2D(latitude: 47.3769, longitude: 8.5417),  // Zurich (Switzerland)
-                    CLLocationCoordinate2D(latitude: 46.2044, longitude: 6.1432),  // Geneva (Switzerland)
-                    CLLocationCoordinate2D(latitude: 45.4642, longitude: 9.1900),  // Milan (Italy)
-                    CLLocationCoordinate2D(latitude: 41.9028, longitude: 12.4964)  // Rome (Italy)
+                    CLLocationCoordinate2D(latitude: 52.5505, longitude: 13.3704), // Gesundbrunnen
+                    CLLocationCoordinate2D(latitude: 52.5426, longitude: 13.3499), // Mauerpark
+                    CLLocationCoordinate2D(latitude: 52.5294, longitude: 13.4134), // Hackescher Markt
+                    CLLocationCoordinate2D(latitude: 52.5208, longitude: 13.4094), // Alexanderplatz
+                    CLLocationCoordinate2D(latitude: 52.5186, longitude: 13.3762), // Reichstag Building
+                    CLLocationCoordinate2D(latitude: 52.5163, longitude: 13.3777), // Brandenburg Gate
+                    CLLocationCoordinate2D(latitude: 52.5097, longitude: 13.3758), // Tiergarten
+                    CLLocationCoordinate2D(latitude: 52.5037, longitude: 13.3769), // Potsdamer Platz
+                    CLLocationCoordinate2D(latitude: 52.5076, longitude: 13.3904), // Checkpoint Charlie
+                    CLLocationCoordinate2D(latitude: 52.4958, longitude: 13.3051), // Charlottenburg Palace
+                    CLLocationCoordinate2D(latitude: 52.4854, longitude: 13.4443), // Treptower Park
+                    CLLocationCoordinate2D(latitude: 52.4731, longitude: 13.4220), // Tempelhofer Feld
+                    CLLocationCoordinate2D(latitude: 52.4701, longitude: 13.3872), // Schöneberg
+                    CLLocationCoordinate2D(latitude: 52.4617, longitude: 13.3722), // Rathaus Steglitz
+                    CLLocationCoordinate2D(latitude: 52.4550, longitude: 13.2901)  // Wannsee
                 ]
+
                 GoogleMapWrapper.shared?.drawRoute(points)
                 
                 GoogleMapWrapper.shared!.moveCamera(points.first!)
