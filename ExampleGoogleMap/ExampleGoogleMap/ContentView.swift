@@ -11,6 +11,7 @@ import GoogleMaps
 
 struct ContentView: View {
     @State var mapView = GoogleMapWrapper.shared!.mapView
+    @State var popupText: String?
     
     var body: some View {
         VStack {
@@ -84,7 +85,13 @@ struct ContentView: View {
                 GoogleMapWrapper.shared!.moveCamera(points.first!)
             }
             
-            GoogleMapWrapper.shared?.mapViewRepresentable
+            ZStack {
+                GoogleMapWrapper.shared?.mapViewRepresentable
+                
+                if popupText != nil {
+                    CustomPopupView(text: $popupText)
+                }
+            }
 
         }
         .padding()
