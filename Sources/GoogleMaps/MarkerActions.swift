@@ -12,6 +12,8 @@ import GoogleMapsUtils
 public class MarkerActions: NSObject {
     
     private weak var mapView: GMSMapView?
+    public var tapHandler: ((GMSMarker) -> Void)?
+    
     private var mapMarkers = [GMSMarker]()
     private var clusterMarkers = [GMSMarker]()
     private let clusterManager: GMUClusterManager
@@ -46,22 +48,15 @@ public class MarkerActions: NSObject {
     }
 }
 
-extension MarkerActions: GMSMapViewDelegate  {
-   
+extension MarkerActions: GMSMapViewDelegate, GMUClusterManagerDelegate {
+    
     public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-      // center the map on tapped marker
-      mapView.animate(toLocation: marker.position)
-      // check if a cluster icon was tapped
-      if marker.userData is GMUCluster {
-        // zoom in on tapped cluster
-        mapView.animate(toZoom: mapView.camera.zoom + 1)
-        NSLog("Did tap cluster")
-        return true
-      }
-
-      NSLog("Did tap a normal marker")
-      return false
+        
+        tapHandler?(marker)
+        // center the map on tapped marker
+        mapView.animate(toLocation: marker.position)
+        
+        return false
     }
-          
-          
+    
 }

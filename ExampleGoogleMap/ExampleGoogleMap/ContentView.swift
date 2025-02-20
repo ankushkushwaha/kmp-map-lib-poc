@@ -8,6 +8,8 @@
 import SwiftUI
 import GoogleMapTarget
 import GoogleMaps
+import GoogleMapsUtils
+
 
 struct ContentView: View {
     @State var mapView = GoogleMapWrapper.shared!.mapView
@@ -16,7 +18,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button("Add Marker") {
-                
+
                 let markerCoordinates = [
                         CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194), // SF
                         CLLocationCoordinate2D(latitude: 37.7849, longitude: -122.4094), // Another location
@@ -95,6 +97,29 @@ struct ContentView: View {
 
         }
         .padding()
+        .onAppear {
+            GoogleMapWrapper.shared?.tapHandler = { marker in
+             
+                print(marker)
+                
+                if let cluster = marker.userData as? GMUCluster {
+                    
+                    popupText = "Cluster contains \(cluster.count) markers"
+
+                    for (marker) in cluster.items {
+                        popupText! += "\n \(marker.position)"
+                    }
+                    
+                } else {
+                    popupText = "Marker tapped at position \(marker.position)"
+                }
+                
+                if marker.userData is GMUCluster {
+                  // zoom in on tapped cluster
+                  NSLog("Did tap cluster")
+                }
+            }
+        }
     }
 }
 

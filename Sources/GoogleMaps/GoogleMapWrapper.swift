@@ -12,6 +12,7 @@ public class GoogleMapWrapper: MapController {
 
     public var mapView: GMSMapView?
     public var mapViewRepresentable: MapRepresentable
+    public var tapHandler: ((GMSMarker) -> Void)?
 
     public static var shared: GoogleMapWrapper?
     private var cameraAction: CameraAction?
@@ -37,7 +38,14 @@ public class GoogleMapWrapper: MapController {
             self?.cameraAction = CameraAction(mapView)
             self?.markerAction = MarkerActions(mapView)
             self?.routingAction = RoutingActions(mapView)
+            
+            
+            self?.markerAction?.tapHandler = { marker in
+                self?.tapHandler?(marker)
+            }
         }
+        
+        
     }
         
     public func addMarkers(_ points: [CLLocationCoordinate2D], image: UIImage?, metaDataDict: [String : String]?) {
