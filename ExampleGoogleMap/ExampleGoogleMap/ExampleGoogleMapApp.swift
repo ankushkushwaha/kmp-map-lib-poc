@@ -13,7 +13,7 @@ import GoogleMapTarget
 struct ExampleGoogleMapApp: App {
     
     init() {
-        GoogleMapWrapper.configure("AIzaSyB8o9mrrMBQynPNlT78vaveTAoHfoq1wbA")
+        GoogleMapWrapper.configure("AIzaSyDMugBPnM-3__t2tiBK-ODnHS7e6kzc8BI")
     }
     
     var body: some Scene {
