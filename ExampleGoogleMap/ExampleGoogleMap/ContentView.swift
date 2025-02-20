@@ -21,10 +21,10 @@ struct ContentView: View {
             Button("Add Marker") {
 
                 let points = [
-                        CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194), // SF
-                        CLLocationCoordinate2D(latitude: 37.7849, longitude: -122.4094), // Another location
-                        CLLocationCoordinate2D(latitude: 37.7649, longitude: -122.4294)  // Another location
-                    ]
+                    CLLocationCoordinate2D(latitude: 52.5200, longitude: 13.4050), // Berlin Center
+                    CLLocationCoordinate2D(latitude: 52.5300, longitude: 13.4200), // Top Right
+                    CLLocationCoordinate2D(latitude: 52.5100, longitude: 13.3900)  // Bottom Left
+                ]
                 
                 let markersWithData = points.map { coordinates in
                     MarkerWithData(
@@ -94,6 +94,10 @@ struct ContentView: View {
                 GoogleMapWrapper.shared?.drawRoute(points)
                 
                 GoogleMapWrapper.shared!.moveCamera(points.first!)
+            }
+            
+            Button("Clear map") {
+                GoogleMapWrapper.shared?.clearMap()
             }
             
             ZStack {
