@@ -21,7 +21,7 @@ public struct MapRepresentable: UIViewRepresentable {
     public func makeUIView(context: Context) -> GMSMapView {
         let mapView = GMSMapView(frame: .zero)
 
-//        mapView.delegate = context.coordinator
+        mapView.delegate = context.coordinator
         
         mapCreated?(mapView)
         return mapView
