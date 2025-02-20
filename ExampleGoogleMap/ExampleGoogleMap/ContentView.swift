@@ -10,24 +10,33 @@ import GoogleMapTarget
 import GoogleMaps
 import GoogleMapsUtils
 
-
 struct ContentView: View {
     @State var mapView = GoogleMapWrapper.shared!.mapView
-    @State var popupText: String?
+    @State var popupText: String? = nil
+    
+    private let metaDataKey =  "markerMetadataKey"
     
     var body: some View {
         VStack {
             Button("Add Marker") {
 
-                let markerCoordinates = [
+                let points = [
                         CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194), // SF
                         CLLocationCoordinate2D(latitude: 37.7849, longitude: -122.4094), // Another location
                         CLLocationCoordinate2D(latitude: 37.7649, longitude: -122.4294)  // Another location
                     ]
                 
-                GoogleMapWrapper.shared?.addMarkers(markerCoordinates, image: nil, metaDataDict: nil)
+                let markersWithData = points.map { coordinates in
+                    MarkerWithData(
+                        geoCoordinates: coordinates,
+                        metaData: [metaDataKey: "Marker metadata for cluster: \(coordinates.latitude), \(coordinates.longitude)"],
+                        image: UIImage(systemName: "car.fill")!
+                    )
+                }
                 
-                GoogleMapWrapper.shared!.moveCamera(markerCoordinates.first!)
+                GoogleMapWrapper.shared?.addMarkers(markersWithData)
+                
+                GoogleMapWrapper.shared!.moveCamera(points.first!)
             }
             
             Button("Add Clusters") {
@@ -48,7 +57,7 @@ struct ContentView: View {
                 let markersWithData = points.map { coordinates in
                     MarkerWithData(
                         geoCoordinates: coordinates,
-                        metaData: ["markerMetadataKey": "Marker metadata for cluster: \(coordinates.latitude), \(coordinates.longitude)"],
+                        metaData: [metaDataKey: "Marker metadata for cluster: \(coordinates.latitude), \(coordinates.longitude)"],
                         image: UIImage(systemName: "car.fill")!
                     )
                 }
@@ -90,7 +99,7 @@ struct ContentView: View {
             ZStack {
                 GoogleMapWrapper.shared?.mapViewRepresentable
                 
-                if popupText != nil {
+                if let popupText = popupText, !popupText.isEmpty  {
                     CustomPopupView(text: $popupText)
                 }
             }
@@ -100,18 +109,21 @@ struct ContentView: View {
         .onAppear {
             GoogleMapWrapper.shared?.tapHandler = { marker in
              
-                print(marker)
-                
                 if let cluster = marker.userData as? GMUCluster {
                     
                     popupText = "Cluster contains \(cluster.count) markers"
 
-                    for (marker) in cluster.items {
+                    for marker in cluster.items {
                         popupText! += "\n \(marker.position)"
                     }
                     
                 } else {
+                    
                     popupText = "Marker tapped at position \(marker.position)"
+
+                    if let metadata = marker.userData as? [String: Any] {
+                        popupText = popupText! + "\n\n--------\n \(String(describing: metadata[metaDataKey]))"
+                    }
                 }
                 
                 if marker.userData is GMUCluster {

@@ -27,20 +27,22 @@ public class MarkerActions: NSObject {
         )
     }
     
-    public func addMarkers(_ markers: [CLLocationCoordinate2D]) {
-        for markerCoordinate in markers {
-            let marker = GMSMarker(position: markerCoordinate)
+    public func addMarkers(_ markers: [MarkerWithData]) {
+        for markerWithData in markers {
+            let marker = GMSMarker(position: markerWithData.geoCoordinates)
             marker.map = mapView
-            
+            marker.userData = markerWithData.metaData
             mapMarkers.append(marker)
         }
+        
+        mapView?.delegate = self
     }
     
-    
-    public func addClusterMarkers(_ points: [CLLocationCoordinate2D]) {
+    public func addClusterMarkers(_ markers: [MarkerWithData]) {
         var arr: [GMSMarker] = []
-        for markerCoordinate in points {
-            let marker = GMSMarker(position: markerCoordinate)
+        for markerWithData in markers {
+            let marker = GMSMarker(position: markerWithData.geoCoordinates)
+            marker.userData = markerWithData.metaData
             arr.append(marker)
         }
         clusterManager.add(arr)
@@ -53,10 +55,10 @@ extension MarkerActions: GMSMapViewDelegate, GMUClusterManagerDelegate {
     public func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         
         tapHandler?(marker)
+        
         // center the map on tapped marker
         mapView.animate(toLocation: marker.position)
         
         return false
     }
-    
 }

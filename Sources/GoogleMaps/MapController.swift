@@ -8,16 +8,13 @@
 import GoogleMaps
 
 public protocol MapController {
-    func addMarkers(_ point: [CLLocationCoordinate2D],
-                   image: UIImage?,
-                   metaDataDict: [String : String]?)
-    
-//    func addMarkerCluster(_ markers: [MarkerWithData],
-//                          clusterImage: UIImage)
+    func addMarkers(_ markers: [MarkerWithData])
+
+    func addMarkerCluster(_ markers: [MarkerWithData],
+                          clusterImage: UIImage)
     func moveCamera(_ point: CLLocationCoordinate2D)
-//    func darwRoute(start: CLLocationCoordinate2D, end: CLLocationCoordinate2D,
-//                   routeColor: UIColor, widthInPixels: CGFloat)
     func drawRoute(_ points: [CLLocationCoordinate2D])
+    func clearMap()
 }
 
 

@@ -44,19 +44,14 @@ public class GoogleMapWrapper: MapController {
                 self?.tapHandler?(marker)
             }
         }
-        
-        
     }
         
-    public func addMarkers(_ points: [CLLocationCoordinate2D], image: UIImage?, metaDataDict: [String : String]?) {
-        markerAction?.addMarkers(points)
+    public func addMarkers(_ markers: [MarkerWithData]) {
+        markerAction?.addMarkers(markers)
     }
     
-    public func addMarkerCluster(_ markers: [MarkerWithData], clusterImage: UIImage) {
-        
-        let markers = markers.map { marker in
-            marker.geoCoordinates
-        }
+    public func addMarkerCluster(_ markers: [MarkerWithData],
+                                 clusterImage: UIImage) {
         markerAction?.addClusterMarkers(markers)
     }
     
