@@ -9,23 +9,18 @@ import SwiftUI
 import heresdk
 
 struct CustomPopupView: View {
-    let marker: MapMarker
-    let metaData: String
-    @Binding var showPopup: Bool
+    @Binding var text: String?
     
     var body: some View {
         VStack {
-            Text("Marker tapped!")
-                .padding()
-
-            Text("Location: \(marker.coordinates.latitude), \(marker.coordinates.longitude)")
-                .padding()
-            
-            Text("Metadata: \(metaData)")
-                .padding()
+            ScrollView {
+                Text(text ?? "")
+                    .padding()
+            }
+            .frame(maxHeight: 300)
 
             Button("Close") {
-                showPopup = false
+                text = nil
             }
             .padding()
         }
@@ -41,5 +36,5 @@ struct CustomPopupView: View {
     
     let mapImage = MapImage(pixelData: imageData!,
                             imageFormat: ImageFormat.png)
-    CustomPopupView(marker: MapMarker(at: GeoCoordinates(latitude: 0.0, longitude: 0.0), image: mapImage), metaData: "Test", showPopup: .constant(true))
+    CustomPopupView(text: .constant("Title"))
 }
