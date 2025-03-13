@@ -11,8 +11,3 @@ To run POC project via local here-map-package (helpful while development)
 4. Now go to created here-map-package -> and checkout main branch
 5. (Optional) Use git lfs pull, in case if git lfs files are not fetched properly
 6. Close and reopen xcode project if already open, clean build
-    
-
-
-
->>>>>>> 77cddf0 (Update README)
